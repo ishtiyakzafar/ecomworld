@@ -1,0 +1,27 @@
+.sectionHeading {
+  font-size: 25px;
+  font-weight: 600;
+  color: #1C1C1C;
+  position: relative;
+  padding-left: 20px;
+  line-height: 30px;
+  margin-bottom: 30px;
+
+  @media(max-width: 768px) {
+    font-size: 20px;
+    padding-left: 15px;
+    line-height: 25px;
+    font-weight: 500;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 2px;
+    background: #eb3b5a;
+  }
+}

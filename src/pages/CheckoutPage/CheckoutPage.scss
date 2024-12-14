@@ -1,0 +1,79 @@
+.checkoutPage {
+  padding: 80px 0;
+
+  @media(max-width:996px) {
+    padding: 60px 0;
+  }
+
+  @media(max-width:768px) {
+    padding: 40px 0;
+  }
+
+  .billingDetails {
+    .form-check {
+      border: 1px solid #989898;
+      border-radius: 3px;
+      padding-left: 40px;
+      position: relative;
+      height: 45px;
+
+      .form-check-input {
+        margin-top: 15px;
+      }
+
+      .form-check-label {
+        position: absolute;
+        left: 0;
+        display: block;
+        height: 45px;
+        line-height: 45px;
+        width: 100%;
+        cursor: pointer;
+
+        svg {
+          font-size: 20px;
+          margin-top: -2px;
+          margin-right: 5px;
+        }
+
+        span {
+          padding-left: 50px;
+        }
+      }
+    }
+
+    .form-control,
+    .form-select {
+      height: 45px;
+      border-radius: 3px;
+      box-shadow: none;
+      border: 1px solid #989898;
+    }
+
+    textarea.form-control {
+      height: 100px;
+    }
+  }
+
+  .orderSummary {
+    background: #f1f1f1;
+    height: fit-content;
+    padding: 20px;
+    border-radius: 3px;
+
+    h5 {
+      padding-bottom: 20px;
+    }
+
+    .orderSummaryItem {
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 10px;
+    }
+
+    button {
+      margin-top: 30px;
+      width: 100%;
+    }
+  }
+}

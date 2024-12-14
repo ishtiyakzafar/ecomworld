@@ -1,0 +1,132 @@
+.filterDrawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 350px;
+  height: 100vh;
+  background-color: #fff;
+  z-index: 100;
+
+  @media(max-width: 768px) {
+    width: 300px;
+  }
+
+  .header {
+    background: #f1f1f1;
+    height: 60px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    svg {
+      font-size: 25px;
+      color: #1c1c1c;
+    }
+
+    span {
+      color: #1c1c1c;
+      font-size: 14px;
+      font-weight: 500;
+
+      svg {
+        padding-right: 5px;
+        font-size: 25px;
+        color: #1c1c1c;
+      }
+    }
+  }
+
+  .filterContent {
+    padding: 0 20px;
+
+    .filterCategory,
+    .filterBySize,
+    .filterByAvailability {
+      ul li {
+        list-style: none;
+        color: #1c1c1c;
+        margin-bottom: 10px;
+
+        input {
+          border-radius: 0;
+          box-shadow: none;
+          cursor: pointer;
+        }
+
+        label {
+          padding-left: 5px;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .filterPrice {
+      border-top: 1px solid #ddd;
+
+      .priceRangeValue {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 10px;
+      }
+    }
+
+    .filterByColor {
+      border-top: 1px solid #ddd;
+
+      .colorOption {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+
+        .colorBorder {
+          border-radius: 50%;
+          margin-bottom: 10px;
+          padding: 1px;
+        }
+
+        .color {
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .filterBySize,
+    .filterByAvailability {
+      border-top: 1px solid #ddd;
+    }
+  }
+}
+
+.screenCover {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  // border: 1px solid red;
+  cursor: pointer;
+  height: 60px;
+
+  h4 {
+    font-weight: 400;
+    font-size: 20px;
+    color: #1c1c1c;
+  }
+}

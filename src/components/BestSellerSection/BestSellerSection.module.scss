@@ -1,0 +1,27 @@
+.bestSeller {
+  padding-top: 80px;
+
+  @media(max-width: 996px) {
+    padding-top: 60px;
+  }
+
+  @media(max-width: 768px) {
+    padding-top: 40px;
+  }
+
+  .bestSellerSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 30px;
+
+    @media(max-width: 1200px) {
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media(max-width: 768px) {
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+  }
+}
