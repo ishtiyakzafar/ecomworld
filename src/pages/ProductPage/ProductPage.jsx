@@ -1,36 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import s from "./ProductPage.module.scss";
-import ProductCard from '../../components/ProductCard/ProductCard';
+import ProductCard from "../../components/ProductCard/ProductCard";
 import { CiFilter } from "react-icons/ci";
 import { LiaAngleDownSolid } from "react-icons/lia";
-import ProductFilter from '../../components/ProductFilter/ProductFilter';
+import ProductFilter from "../../components/ProductFilter/ProductFilter";
+import productService from "../../services/product";
 
-const ProductPage = ({ products }) => {
+const ProductPage = () => {
   const [showDrawer, setShowDrawer] = useState(false);
+  const [products, setProducts] = useState([]);
 
   const handleShowDrawer = () => {
     if (!showDrawer) {
       setShowDrawer(true);
-      const body = document.querySelector('body');
-      body.style.overflow = 'hidden';
+      const body = document.querySelector("body");
+      body.style.overflow = "hidden";
     } else {
       setShowDrawer(false);
-      const body = document.querySelector('body');
-      body.style.overflow = 'auto';
+      const body = document.querySelector("body");
+      body.style.overflow = "auto";
     }
-  }
+  };
+
+  const fetchAllProducts = async () => {
+    try {
+      const res = await productService.getAllProducts();
+      setProducts(res.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllProducts();
+  }, []);
 
   return (
-    <div className='container'>
+    <div className="container">
       {showDrawer && <ProductFilter handleShowDrawer={handleShowDrawer} />}
       <div className={s.productPage}>
         <div className={s.productHeader}>
           <div onClick={handleShowDrawer} className={s.productFilterBtn}>
-            <CiFilter /><span>FILTER</span>
+            <CiFilter />
+            <span>FILTER</span>
           </div>
           <div className={s.productSorting}>
             <div className="dropdown">
-              <div className={s.selectDropdown} data-bs-toggle="dropdown" aria-expanded="false">
+              <div
+                className={s.selectDropdown}
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
                 <span>Sort</span> <LiaAngleDownSolid />
               </div>
               <ul className="dropdown-menu">
@@ -43,15 +63,13 @@ const ProductPage = ({ products }) => {
           </div>
         </div>
         <div className={s.productList}>
-          {
-            products.map((item) => (
-              <ProductCard key={item._id} item={item} />
-            ))
-          }
+          {products.map((item) => (
+            <ProductCard key={item._id} item={item} />
+          ))}
         </div>
       </div>
-    </div >
-  )
+    </div>
+  );
 };
 
 export default ProductPage;

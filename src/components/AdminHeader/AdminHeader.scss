@@ -1,0 +1,30 @@
+.header {
+  height: 70px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 10px;
+  z-index: 100;
+  background: #fff;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .profile {
+    display: flex;
+    // justify-content: end;
+    align-items: center;
+    gap: 20px;
+
+    .dropdown ul li {
+      cursor: pointer;
+    }
+
+    .user_img img {
+      min-width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  }
+}

@@ -9,11 +9,11 @@ const ProductCard = ({ item }) => {
       <div className={s.productImg}>
         <div className={s.whislist}><i className="fa-regular fa-heart"></i></div>
         <Link to='/product/1'>
-          <img src={item.img} alt="img" />
+          <img src={item.image} alt="img" />
         </Link>
       </div>
       <div className={s.productInfo}>
-        <h6>{item.title}</h6>
+        <h6>{item.name}</h6>
         <p>₹{item.price}</p>
       </div>
     </div>

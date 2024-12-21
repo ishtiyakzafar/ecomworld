@@ -6,7 +6,7 @@ import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
 import Loader from "./components/Loader/Loader.jsx";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 const ProductPage = lazy(() => import("./pages/ProductPage/ProductPage.jsx"));
 const HomePage = lazy(() => import("./pages/HomePage/HomePage.jsx"));
 const Layout = lazy(() => import("./components/Layout/Layout"));
@@ -42,7 +42,14 @@ const CartPage = lazy(() => import("./pages/CartPage/CartPage.jsx"));
 const CheckoutPage = lazy(() => import("./pages/CheckoutPage/CheckoutPage.jsx"));
 const AboutUs = lazy(() => import("./pages/AboutUs/AboutUs.jsx"));
 const ContactUs = lazy(() => import("./pages/ContactUs/ContactUs.jsx"));
-
+import { Provider } from "react-redux";
+import store from "./store/store";
+import CustomerPrivateRoutes from "./config/CustomerPrivateRoutes.jsx";
+const Dashboard = lazy(() => import("./pages/Dashboard/Dashboard.jsx"));
+const AddProduct = lazy(() => import("./pages/AddProduct/AddProduct.jsx"));
+import AdminPrivateRoutes from "./config/AdminPrivateRoutes.jsx";
+import CustomerRoutes from "./config/CustomerRoutes.jsx";
+import AdminLayout from "./components/AdminLayout/AdminLayout.jsx";
 
 
 const products = [
@@ -198,51 +205,39 @@ const products = [
   },
 ];
 
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    errorElement: <PageNotFound />,
-    children: [
-      {
-        path: "",
-        element: <HomePage products={products} />,
-      },
-      {
-        path: "products",
-        element: <ProductPage products={products} />,
-      },
-      {
-        path: "product/:id",
-        element: <ProductDetailPage similarProducts={products} />,
-      },
-      {
-        path: "cart",
-        element: <CartPage cartProducts={products} />,
-      },
-      {
-        path: "checkout",
-        element: <CheckoutPage />,
-      },
-      {
-        path: "wishlist",
-        element: <WishListPage wishlistProducts={products} />,
-      },
-      {
-        path: "about-us",
-        element: <AboutUs />,
-      },
-      {
-        path: "contact-us",
-        element: <ContactUs />,
-      },
-    ],
-  },
-]);
-
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Suspense fallback={<Loader />}>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <Router>
+        <Routes>
+          {/* CUSTOMER ROUTES */}
+          <Route element={<Layout />}>
+            <Route element={<CustomerRoutes />}>
+              <Route path="/" element={<HomePage products={products} />} />
+              <Route path="/products" element={<ProductPage products={products} />} />
+              <Route path="/product/:id" element={<ProductDetailPage similarProducts={products} />} />
+              <Route path="/contact-us" element={<ContactUs />} />
+              <Route path="/about-us" element={<AboutUs />} />
+            </Route>
+
+            <Route element={<CustomerPrivateRoutes />}>
+              <Route path="/cart" element={<CartPage cartProducts={products} />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/wishlist" element={<WishListPage wishlistProducts={products} />} />
+            </Route>
+          </Route>
+
+          {/* ADMIN ROUTES */}
+          <Route element={<AdminLayout />}>
+            <Route element={<AdminPrivateRoutes />}>
+              <Route path="/admin" element={<Dashboard />} />
+              <Route path="/admin/add-product" element={<AddProduct />} />
+            </Route>
+          </Route>
+
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </Router>
+    </Provider>
   </Suspense>
 );

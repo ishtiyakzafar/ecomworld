@@ -1,0 +1,18 @@
+.wrapper {
+  padding: 20px;
+  height: 100vh;
+
+  .page_container {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    grid-gap: 20px;
+    position: relative;
+
+    .page_content {
+      left: 300px;
+      right: 0;
+      position: absolute;
+    }
+  }
+}

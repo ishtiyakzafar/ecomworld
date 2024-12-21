@@ -59,20 +59,18 @@ const ServiceSection = () => {
   return (
     <div className='container'>
       <div className={s.serviceSection}>
-      <Slider {...settings}>
-        {
-          services.map((item) => (
-            <div className={s.serviceCardxxx}>
-
-        
-            <div key={item.id} className={s.serviceCard}>
-              {item.icon}
-              <h5>{item.title}</h5>
-              <p>{item.description}</p>
-            </div>
-            </div>
-          ))
-        }
+        <Slider {...settings}>
+          {
+            services.map((item) => (
+              <div key={item.id} className={s.serviceCardxxx}>
+                <div className={s.serviceCard}>
+                  {item.icon}
+                  <h5>{item.title}</h5>
+                  <p>{item.description}</p>
+                </div>
+              </div>
+            ))
+          }
         </Slider>
       </div>
     </div>

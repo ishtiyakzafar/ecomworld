@@ -6,8 +6,13 @@ import { IoSearchOutline } from "react-icons/io5";
 import { FiUser } from "react-icons/fi";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { FaBarsStaggered } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import { actionLogout } from '../../store/userSlice';
 
 const Header = ({ showLoginPopup }) => {
+  const { isLoggedIn } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   return (
     <header>
       <div className={s.headerLeft}>
@@ -22,15 +27,21 @@ const Header = ({ showLoginPopup }) => {
         <li><Link to="/about-us">About Us</Link></li>
         <li><Link to="/contact-us">Contact Us</Link></li>
       </ul>
+
       <div className={s.headerIcon}>
+        {isLoggedIn && <button onClick={() => dispatch(actionLogout())}>logout</button>}
         <IoSearchOutline />
-        <FiUser onClick={() => {
-          showLoginPopup(true);
-          const body = document.querySelector('body');
-          body.style.overflow = 'hidden';
-        }} />
-        <Link className={s.wishlistIcon} to='/wishlist'><IoMdHeartEmpty /></Link>
-        <Link className={s.cartIcon} to='/cart'><LiaShoppingBagSolid /></Link>
+        {!isLoggedIn && <FiUser
+          onClick={() => {
+            showLoginPopup(true);
+            const body = document.querySelector('body');
+            body.style.overflow = 'hidden';
+          }}
+        />}
+        {isLoggedIn && <>
+          <Link className={s.wishlistIcon} to='/wishlist'><IoMdHeartEmpty /></Link>
+          <Link className={s.cartIcon} to='/cart'><LiaShoppingBagSolid /></Link>
+        </>}
       </div>
     </header>
   )
