@@ -6,13 +6,11 @@ import AdminHeader from "../AdminHeader/AdminHeader";
 
 const AdminLayout = () => {
   return (
-    <div className="wrapper">
-      <div className="page_container">
-        <Sidebar />
-        <div className="page_content">
-          <AdminHeader />
-          <Outlet />
-        </div>
+    <div className="page_container">
+      <Sidebar />
+      <div className="page_content">
+        <AdminHeader />
+        <Outlet />
       </div>
     </div>
   );

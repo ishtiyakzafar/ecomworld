@@ -231,10 +231,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route element={<AdminLayout />}>
             <Route element={<AdminPrivateRoutes />}>
               <Route path="/admin" element={<Dashboard />} />
-              <Route path="/admin/add-product" element={<AddProduct />} />
+              {/* <Route path="/admin/add-product" element={<AddProduct />} /> */}
             </Route>
           </Route>
-
+          <Route path="/admin/add-product" element={<AddProduct />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>

@@ -3,13 +3,13 @@ import http from "./http";
 const getAllProducts = () => {
   return http.get('products');
 }
-const register = (data) => {
-  return http.post('users/register', data);
+const createProduct = (data) => {
+  return http.post('products', data);
 }
 
 const productService = {
   getAllProducts,
-  register,
+  createProduct,
 };
 
 export default productService;
