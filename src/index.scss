@@ -59,6 +59,9 @@ button {
 
 input[type="text"],
 input[type="number"],
+input[type="email"],
+input[type="password"],
+select,
 textarea {
   height: 45px !important;
   border-radius: 3px !important;

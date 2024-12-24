@@ -10,7 +10,7 @@ const OnSaleSection = ({ products }) => {
         <SectionHeading title='On Sale' />
         <div className={s.onSaleSection}>
           {
-            products.slice(8, 12).map((item) => (
+            products.slice(0, 4).map((item) => (
               <ProductCard key={item._id} item={item} />
             ))
           }

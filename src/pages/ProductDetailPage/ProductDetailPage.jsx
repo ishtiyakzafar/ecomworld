@@ -1,13 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import s from "./ProductDetailPage.module.scss";
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import ProductDetailImage from '../../components/ProductDetailImage/ProductDetailImage';
 import ProductDetails from '../../components/ProductDetails/ProductDetails';
 import ProductDetailsTags from '../../components/ProductDetailsTags/ProductDetailsTags';
+import productService from '../../services/product';
 
 const ProductDetailPage = ({ similarProducts }) => {
+  const { id } = useParams();
+  const [details, setDetails] = useState({});
+  const { pathname } = useLocation();
+
+  const fetchProductDetails = async () => {
+    try {
+      const res = await productService.productDetails(id);
+      setDetails(res);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchProductDetails();
+  }, [])
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
     <div className='container'>
       <div className={s.productDetailBox}>
@@ -18,10 +40,10 @@ const ProductDetailPage = ({ similarProducts }) => {
         <div className={s.productDetail}>
           <div className='row g-4 g-md-5'>
             <div className='col-md-12 col-lg-6 col-xl-5'>
-              <ProductDetailImage />
+              <ProductDetailImage details={details} />
             </div>
             <div className='col-md-12 col-lg-6'>
-              <ProductDetails />
+              <ProductDetails details={details} />
             </div>
           </div>
         </div>
@@ -30,16 +52,16 @@ const ProductDetailPage = ({ similarProducts }) => {
 
         <div className={s.productDescription}>
           <SectionHeading title='Description' />
-          <p>Stay stylish and comfortable with the Roadster Women's Casual Hoodie. Crafted from premium-quality fabric, this hoodie offers a relaxed fit and cozy warmth, making it perfect for everyday wear. Designed with a trendy look, it features a drawstring hood, ribbed cuffs, and a spacious front pocket for added convenience. Pair it with jeans or joggers for a versatile and effortless outfit. Stay stylish and comfortable with the Roadster Women's Casual Hoodie. Crafted from premium-quality fabric, this hoodie offers a relaxed fit and cozy warmth, making it perfect for everyday wear. Designed with a trendy look, it features a drawstring hood, ribbed cuffs, and a spacious front pocket for added convenience. Pair it with jeans or joggers for a versatile and effortless outfit.</p>
+          <p>{details.description}</p>
         </div>
         <div className={s.similarProduct}>
           <SectionHeading title='Similar Products' />
           <div className={s.products}>
-            {
+            {/* {
               similarProducts.slice(0, 4).map((item) => (
                 <ProductCard key={item._id} item={item} />
               ))
-            }
+            } */}
           </div>
         </div>
       </div>

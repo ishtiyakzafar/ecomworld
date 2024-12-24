@@ -4,6 +4,7 @@ import SectionHeading from '../SectionHeading/SectionHeading';
 import ProductCard from '../ProductCard/ProductCard';
 
 const NewArrivalsSection = ({ products }) => {
+
   return (
     <div className={s.newArrivals}>
       <div className='container'>

@@ -35,6 +35,8 @@ const ProductPage = () => {
     fetchAllProducts();
   }, []);
 
+
+
   return (
     <div className="container">
       {showDrawer && <ProductFilter handleShowDrawer={handleShowDrawer} />}

@@ -14,8 +14,8 @@ const LoginModal = ({ showLoginPopup }) => {
         <div
           onClick={() => {
             showLoginPopup(false);
-            const body = document.querySelector("body");
-            body.style.overflow = "auto";
+            // const body = document.querySelector("body");
+            // body.style.overflow = "auto";
           }}
           className="close"
         >
@@ -25,12 +25,12 @@ const LoginModal = ({ showLoginPopup }) => {
           {step === 1
             ? "Log in"
             : step === 2
-            ? "Register here"
-            : step === 3
-            ? "Reset password"
-            : step === 4
-            ? "Reset password"
-            : ""}
+              ? "Register here"
+              : step === 3
+                ? "Reset password"
+                : step === 4
+                  ? "Reset password"
+                  : ""}
         </h1>
         {step === 1 ? (
           <Login setStep={setStep} />

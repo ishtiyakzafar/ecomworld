@@ -34,8 +34,8 @@ const Header = ({ showLoginPopup }) => {
         {!isLoggedIn && <FiUser
           onClick={() => {
             showLoginPopup(true);
-            const body = document.querySelector('body');
-            body.style.overflow = 'hidden';
+            // const body = document.querySelector('body');
+            // body.style.overflow = 'hidden';
           }}
         />}
         {isLoggedIn && <>

@@ -1,42 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './AddProduct.scss';
 import productService from '../../services/product';
 
-
-const convertToBase64 = (file) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      resolve(event.target.result);
-    };
-    reader.onerror = function (error) {
-      reject(error);
-    };
-    reader.readAsDataURL(file);
-  });
-};
-
-
 const AddProduct = () => {
   const [productDetails, setProductDetails] = useState({
-    name: "",
+    brand: "",
+    title: "",
+    color: "",
+    quantity: "",
     price: "",
+    discountPrice: "",
+    discountPercent: "",
+    topLevelCategory: "",
+    secondLevelCategory: "",
+    thirdLevelCategory: "",
     description: "",
-    category: "",
-    stock: "",
+    quantitySmall: "",
+    quantityMedium: "",
+    quantityLarge: "",
+    productType: "",
+    image: "",
+    image2: "",
+    image3: "",
+    image4: "",
+    image5: "",
   });
 
-
-  const [imagexx, setImagexx] = useState([]);
-
-  const [files, setFiles] = useState([]);
-  const [base64Images, setBase64Images] = useState([]);
-  const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
-      const res = await productService.createProduct({ ...productDetails, images: uploadedImageUrls })
+      const res = await productService.createProduct({
+        ...productDetails,
+        images: [
+          productDetails.image,
+          productDetails.image2 && productDetails.image2,
+          productDetails.image3 && productDetails.image3,
+          productDetails.image4 && productDetails.image4,
+          productDetails.image5 && productDetails.image5,
+        ],
+      });
     } catch (error) {
       console.log(error);
     }
@@ -47,139 +50,9 @@ const AddProduct = () => {
     setProductDetails((prev) => ({ ...prev, [name]: value }));
   };
 
-  const uploadProductImage = async (e) => {
-    const selectedFiles = Array.from(e.target.files);
-    setFiles(selectedFiles);
-
-    let storeImages = [];
-
-    for (const file of selectedFiles) {
-
-      const data = new FormData();
-      data.append("file", file);
-      // data.append("upload_preset", "qjkidvfx");
-      data.append("upload_preset", "gdjsowkd");
-
-      // data.append("cloud_name", "dob0ubi8g");
-      data.append("cloud_name", "dzxbddqoj");
-      // data.append("signature", "bfd09f95f331f558cbd1320e67aa8d488770583e");
-      // data.append("timestamp", "1315060510");
-      // data.append("api_key", "526165658192339");
-
-
-
-
-      const res = await fetch(
-        "https://api.cloudinary.com/v1_1/dzxbddqoj/image/upload",
-        {
-          method: "POST",
-          body: data,
-        }
-      );
-
-      const result = await res.json();
-
-      if (res.ok) {
-        storeImages.push(result.secure_url);
-      } else {
-        console.error('Upload failed for file:', file.name, result);
-      }
-    };
-
-    setUploadedImageUrls(storeImages)
-
-  }
-
-  const handleImageConversion = async () => {
-    const base64Array = [];
-    for (const file of files) {
-      const base64 = await convertToBase64(file);
-      base64Array.push(base64);
-    }
-    setBase64Images(base64Array);
-  };
-
-
-  useEffect(() => {
-    if (files.length > 0) {
-      handleImageConversion();
-    }
-  }, [files]);
-
-  //   {
-  //     "asset_id": "fdf4bc63f07003a5754820c5ef33c89f",
-  //     "public_id": "yidwziqxsyw3nfyljwjn",
-  //     "version": 1734776173,
-  //     "version_id": "a704e217b372dee0cb3927d1ce5c2dde",
-  //     "signature": "79c25f47f14a950445cf967370ad42542a9bc631",
-  //     "width": 1212,
-  //     "height": 1600,
-  //     "format": "jpg",
-  //     "resource_type": "image",
-  //     "created_at": "2024-12-21T10:16:13Z",
-  //     "tags": [],
-  //     "bytes": 95946,
-  //     "type": "upload",
-  //     "etag": "02b4a8bce406f8795fc12d02fb03fbee",
-  //     "placeholder": false,
-  //     "url": "http://res.cloudinary.com/dzxbddqoj/image/upload/v1734776173/yidwziqxsyw3nfyljwjn.jpg",
-  //     "secure_url": "https://res.cloudinary.com/dzxbddqoj/image/upload/v1734776173/yidwziqxsyw3nfyljwjn.jpg",
-  //     "asset_folder": "",
-  //     "display_name": "product14",
-  //     "original_filename": "product14"
-  // }
-
-
-  const deleteImage = async (publicId) => {
-    const res = await fetch(
-      `https://api.cloudinary.com/v1_1/dzxbddqoj/image/destroy`,  // POST request for deletion
-      {
-        method: "POST",  // POST method is used to delete an image
-        body: JSON.stringify({
-          public_id: 'yidwziqxsyw3nfyljwjn',
-          api_key: '526165658192339', // Cloudinary API key
-          signature: "79c25f47f14a950445cf967370ad42542a9bc631",
-          timestamp: "2024-12-21T10:16:13Z"
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    const result = await res.json();
-
-    if (res.ok) {
-      console.log('Image deleted successfully:', result);
-    } else {
-      console.error('Failed to delete image:', result);
-    }
-  };
-
-  //handle and convert it in base 64
-  const handleImagexxx = (e) => {
-    const file = e.target.files[0];
-    setFileToBase(file);
-
-  }
-
-  const setFileToBase = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = async () => {
-      // setImagexx(reader.result);
-      try {
-        const res = await productService.createProduct({ image: reader.result })
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  }
-
 
   return (
     <div className='addproduct'>
-      <button onClick={deleteImage}>delete</button>
       <form onSubmit={handleAddProduct} className='row g-3'>
         <div className='col-md-6'>
           <label htmlhtmlFor="brand" className="form-label">
@@ -209,21 +82,25 @@ const AddProduct = () => {
             name='title'
           />
         </div>
-        <div className='col-md-6'>
-          <label htmlhtmlFor="color" className="form-label">
-            Color
-          </label>
+        <div className='col-md-4'>
+          <label htmlFor="color" className="form-label">Color</label>
           <input
             required
             value={productDetails.color}
             onChange={handleOnChange}
             type="text"
-            className="form-control"
-            id="color"
             name='color'
-          />
+            className="form-control" list="colorOptions" id="color" placeholder="Type to search..." />
+          <datalist id="colorOptions">
+            <option value="Red" />
+            <option value="Green" />
+            <option value="Blue" />
+            <option value="White" />
+            <option value="Black" />
+          </datalist>
         </div>
-        <div className='col-md-6'>
+
+        <div className='col-md-4'>
           <label htmlhtmlFor="quantity" className="form-label">
             Quantity
           </label>
@@ -237,6 +114,58 @@ const AddProduct = () => {
             name='quantity'
           />
         </div>
+        <div class="col-md-4">
+          <label for="productType" class="form-label">Product Type</label>
+          <select name='productType' onChange={handleOnChange} value={productDetails.productType} id="productType" class="form-select">
+            <option selected>Choose...</option>
+            <option value="newarrival">New Arrival</option>
+            <option value="bestseller">Best Seller</option>
+            <option value="onsale">On Sale</option>
+          </select>
+        </div>
+
+        <div className='col-md-4'>
+          <label htmlhtmlFor="price" className="form-label">
+            Price
+          </label>
+          <input
+            required
+            value={productDetails.price}
+            onChange={handleOnChange}
+            type="number"
+            className="form-control"
+            id="price"
+            name='price'
+          />
+        </div>
+        <div className='col-md-4'>
+          <label htmlhtmlFor="discountPrice" className="form-label">
+            Discount Price
+          </label>
+          <input
+            required
+            value={productDetails.discountPrice}
+            onChange={handleOnChange}
+            type="number"
+            className="form-control"
+            id="discountPrice"
+            name='discountPrice'
+          />
+        </div>
+        <div className='col-md-4'>
+          <label htmlhtmlFor="discountPercent" className="form-label">
+            Discount Percent
+          </label>
+          <input
+            required
+            value={productDetails.discountPercent}
+            onChange={handleOnChange}
+            type="number"
+            className="form-control"
+            id="discountPercent"
+            name='discountPercent'
+          />
+        </div>
 
         <div className='col-md-4'>
           <label htmlFor="topLevelCategory" className="form-label">Top Level Category</label>
@@ -246,13 +175,11 @@ const AddProduct = () => {
             onChange={handleOnChange}
             type="text"
             name='topLevelCategory'
-            className="form-control" list="categoryOptions" id="topLevelCategory" placeholder="Type to search..." />
-          <datalist id="categoryOptions">
-            <option value="San Francisco" />
-            <option value="New York" />
-            <option value="Seattle" />
-            <option value="Los Angeles" />
-            <option value="Chicago" />
+            className="form-control" list="topCategoryOptions" id="topLevelCategory" placeholder="Type to search..." />
+          <datalist id="topCategoryOptions">
+            <option value="Man" />
+            <option value="Women" />
+            <option value="Kid" />
           </datalist>
         </div>
         <div className='col-md-4'>
@@ -263,13 +190,11 @@ const AddProduct = () => {
             onChange={handleOnChange}
             type="text"
             name='secondLevelCategory'
-            className="form-control" list="categoryOptions" id="secondLevelCategory" placeholder="Type to search..." />
-          <datalist id="categoryOptions">
-            <option value="San Francisco" />
-            <option value="New York" />
-            <option value="Seattle" />
-            <option value="Los Angeles" />
-            <option value="Chicago" />
+            className="form-control" list="secondCategoryOptions" id="secondLevelCategory" placeholder="Type to search..." />
+          <datalist id="secondCategoryOptions">
+            <option value="Clothing" />
+            <option value="Accessories" />
+            <option value="Brands" />
           </datalist>
         </div>
         <div className='col-md-4'>
@@ -280,13 +205,15 @@ const AddProduct = () => {
             onChange={handleOnChange}
             type="text"
             name='thirdLevelCategory'
-            className="form-control" list="categoryOptions" id="thirdLevelCategory" placeholder="Type to search..." />
-          <datalist id="categoryOptions">
-            <option value="San Francisco" />
-            <option value="New York" />
-            <option value="Seattle" />
-            <option value="Los Angeles" />
-            <option value="Chicago" />
+            className="form-control" list="thirdCategoryOptions" id="thirdLevelCategory" placeholder="Type to search..." />
+          <datalist id="thirdCategoryOptions">
+            <option value="Top" />
+            <option value="Dressess" />
+            <option value="T-Shirt" />
+            <option value="Saree" />
+            <option value="Lengha Choli" />
+            <option value="Kurta" />
+            <option value="Jeans" />
           </datalist>
         </div>
 
@@ -310,7 +237,6 @@ const AddProduct = () => {
             Quantity (Small)
           </label>
           <input
-            required
             value={productDetails.quantitySmall}
             onChange={handleOnChange}
             type="number"
@@ -324,7 +250,6 @@ const AddProduct = () => {
             Quantity (Medium)
           </label>
           <input
-            required
             value={productDetails.quantityMedium}
             onChange={handleOnChange}
             type="number"
@@ -338,7 +263,6 @@ const AddProduct = () => {
             Quantity (Large)
           </label>
           <input
-            required
             value={productDetails.quantityLarge}
             onChange={handleOnChange}
             type="number"
@@ -348,22 +272,74 @@ const AddProduct = () => {
           />
         </div>
 
-
         <div className='col-md-12'>
-          <label for="formFile" className="form-label">Image</label>
-          <input multiple accept="image/*" onChange={handleImagexxx} required className="form-control" type="file" id="formFile" />
+          <label htmlhtmlFor="image" className="form-label">
+            Image
+          </label>
+          <input
+            required
+            value={productDetails.image}
+            onChange={handleOnChange}
+            type="text"
+            className="form-control"
+            id="image"
+            name='image'
+          />
         </div>
-        {base64Images.length > 0 &&
-          <div className='col-md-12'>
-            <div className='d-flex flex-wrap gap-3'>
-              {
-                base64Images.map((item) => (
-                  <img width={60} style={{ objectFit: 'cover' }} src={item} alt="img" />
-                ))
-              }
-            </div>
-          </div>
-        }
+        <div className='col-md-12'>
+          <label htmlhtmlFor="image2" className="form-label">
+            Image
+          </label>
+          <input
+            value={productDetails.image2}
+            onChange={handleOnChange}
+            type="text"
+            className="form-control"
+            id="image2"
+            name='image2'
+          />
+        </div>
+        <div className='col-md-12'>
+          <label htmlhtmlFor="image3" className="form-label">
+            Image
+          </label>
+          <input
+            value={productDetails.image3}
+            onChange={handleOnChange}
+            type="text"
+            className="form-control"
+            id="image3"
+            name='image3'
+          />
+        </div>
+        <div className='col-md-12'>
+          <label htmlhtmlFor="image4" className="form-label">
+            Image
+          </label>
+          <input
+            value={productDetails.image4}
+            onChange={handleOnChange}
+            type="text"
+            className="form-control"
+            id="image4"
+            name='image4'
+          />
+        </div>
+        <div className='col-md-12'>
+          <label htmlhtmlFor="image5" className="form-label">
+            Image
+          </label>
+          <input
+            value={productDetails.image5}
+            onChange={handleOnChange}
+            type="text"
+            className="form-control"
+            id="image5"
+            name='image5'
+          />
+        </div>
+
+
         <div className="modal-footer">
           <button type="submit">Save changes</button>
         </div>

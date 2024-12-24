@@ -6,13 +6,13 @@ import { LiaCertificateSolid } from "react-icons/lia";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { Link } from 'react-router-dom';
 
-const ProductDetails = () => {
+const ProductDetails = ({ details }) => {
   return (
     <div className={s.productInfo}>
       <div className={s.basicInfo}>
-        <h1>Roadster</h1>
-        <p>Roadster Men's Casual Hoodie</p>
-        <h4>₹80 <small>₹100</small></h4>
+        <h1>{details.brand}</h1>
+        <p>{details.title}</p>
+        <h4>₹{details.discountPrice} <small>₹{details.price}</small></h4>
       </div>
       <div className={s.productSize}>
         <p>Size</p>

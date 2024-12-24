@@ -10,7 +10,7 @@ const BestSellerSection = ({ products }) => {
         <SectionHeading title='Best Seller' />
         <div className={s.bestSellerSection}>
           {
-            products.slice(4, 8).map((item) => (
+             products.slice(0, 4).map((item) => (
               <ProductCard key={item._id} item={item} />
             ))
           }

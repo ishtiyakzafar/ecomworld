@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from "./HomePage.module.scss";
 import SavingZoneSection from '../../components/SavingZoneSection/SavingZoneSection';
 import ServiceSection from '../../components/ServiceSection/ServiceSection';
@@ -7,9 +7,25 @@ import BestSellerSection from '../../components/BestSellerSection/BestSellerSect
 import NewArrivalsSection from '../../components/NewArrivalsSection/NewArrivalsSection';
 import CategorySection from '../../components/CategorySection/CategorySection';
 import HeroSection from '../../components/HeroSection/HeroSection';
+import productService from '../../services/product';
 
 
-const HomePage = ({ products }) => {
+const HomePage = () => {
+  const [products, setProducts] = useState([]);
+
+  const fetchAllProducts = async () => {
+    try {
+      const res = await productService.getProductsByType();
+      setProducts(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllProducts();
+  }, []);
+
   return (
     <>
       <HeroSection />

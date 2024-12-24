@@ -8,13 +8,13 @@ const ProductCard = ({ item }) => {
     <div className={s.productCard}>
       <div className={s.productImg}>
         <div className={s.whislist}><i className="fa-regular fa-heart"></i></div>
-        <Link to='/product/1'>
-          <img src={item.image} alt="img" />
+        <Link to={`/product/${item._id}`}>
+          <img src={item.images[0]} alt="img" />
         </Link>
       </div>
       <div className={s.productInfo}>
-        <h6>{item.name}</h6>
-        <p>₹{item.price}</p>
+        <h6>{item.title}</h6>
+        <p>₹{item.discountPrice}</p>
       </div>
     </div>
   )

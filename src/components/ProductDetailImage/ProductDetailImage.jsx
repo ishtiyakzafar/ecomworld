@@ -23,7 +23,7 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
 
 
-const ProductDetailImage = () => {
+const ProductDetailImage = ({ details }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   return (
@@ -40,30 +40,13 @@ const ProductDetailImage = () => {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper2"
       >
-        <SwiperSlide>
-          <img src={img1} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={img2} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={img3} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={img4} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={img5} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={img6} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={img7} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={img8} />
-        </SwiperSlide>
+        {
+          details.images?.map((item, index) => (
+            <SwiperSlide key={index}>
+              <img src={item} />
+            </SwiperSlide>
+          ))
+        }
       </Swiper>
       <Swiper
         onSwiper={setThumbsSwiper}
@@ -75,30 +58,13 @@ const ProductDetailImage = () => {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper"
       >
-        <SwiperSlide>
-          <img src={img1} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={img2} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={img3} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={img4} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={img5} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={img6} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={img7} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={img8} />
-        </SwiperSlide>
+        {
+          details.images?.map((item, index) => (
+            <SwiperSlide key={index}>
+              <img src={item} />
+            </SwiperSlide>
+          ))
+        }
       </Swiper>
     </div>
   );
