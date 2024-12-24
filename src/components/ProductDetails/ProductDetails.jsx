@@ -1,43 +1,79 @@
-import React from 'react';
+import React, { useState } from "react";
 import s from "./ProductDetails.module.scss";
 import { GiShoppingBag } from "react-icons/gi";
 import { FaRegHeart } from "react-icons/fa";
 import { LiaCertificateSolid } from "react-icons/lia";
 import { LiaShippingFastSolid } from "react-icons/lia";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import StarRatings from "react-star-ratings";
+
+const sizes = [
+  { id: 1, size: "S" },
+  { id: 2, size: "M" },
+  { id: 3, size: "L" },
+];
 
 const ProductDetails = ({ details }) => {
+  const [size, setSize] = useState("");
+
   return (
     <div className={s.productInfo}>
       <div className={s.basicInfo}>
-        <h1>{details.brand}</h1>
-        <p>{details.title}</p>
-        <h4>₹{details.discountPrice} <small>₹{details.price}</small></h4>
+        <h1>{details.title}</h1>
+        <p>{details.brand}</p>
+        <h4>
+          ₹{details.discountPrice} <small>₹{details.price}</small>{" "}
+          <span>{details.discountPercent}% Off</span>
+        </h4>
       </div>
+
+      <div className={s.productRating}>
+        <StarRatings
+          rating={2.3}
+          starRatedColor="yellow"
+          numberOfStars={5}
+          name="rating"
+          starDimension="20px"
+          starSpacing="1px"
+        />
+        <p>
+          142536 Rating <a href="#">3625 review</a>
+        </p>
+      </div>
+
       <div className={s.productSize}>
-        <p>Size</p>
+        <p>
+          Size:<span>{size}</span>
+        </p>
         <div className={s.sizeOption}>
-          <div className={s.size}>XS</div>
-          <div className={s.size}>S</div>
-          <div className={s.size}>M</div>
-          <div className={s.size}>L</div>
-          <div className={s.size}>XL</div>
-          <div className={s.size}>XXL</div>
+          {sizes.map((item) => (
+            <div
+              onClick={() => setSize(item.size)}
+              key={item.id}
+              className={`${s.size} ${item.size === size && s.active}`}
+            >
+              {item.size}
+            </div>
+          ))}
         </div>
       </div>
       <div className={s.productColor}>
-        <p>Color</p>
-        <div className={s.colorOption}>
-          <div style={{ background: 'red' }} className={s.color}></div>
-          <div style={{ background: 'blue' }} className={s.color}></div>
-          <div style={{ background: 'yellow' }} className={s.color}></div>
-          <div style={{ background: 'green' }} className={s.color}></div>
-        </div>
+        <p>
+          Color: <span>Red</span>
+        </p>
       </div>
 
       <div className={s.productBtn}>
-        <Link to='/cart'><button className={s.addToCart}><GiShoppingBag /> Add to Cart</button></Link>
-        <Link to='/wishlist'><button className={s.addToWishlist}><FaRegHeart /> Wishlist</button></Link>
+        <Link to="/cart">
+          <button className={s.addToCart}>
+            <GiShoppingBag /> Add to Cart
+          </button>
+        </Link>
+        <Link to="/wishlist">
+          <button className={s.addToWishlist}>
+            <FaRegHeart /> Wishlist
+          </button>
+        </Link>
       </div>
 
       <div className={s.extraInfo}>
@@ -61,7 +97,7 @@ const ProductDetails = ({ details }) => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default ProductDetails;

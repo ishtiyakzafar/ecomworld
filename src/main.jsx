@@ -211,16 +211,18 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Router>
         <Routes>
           {/* CUSTOMER ROUTES */}
-          <Route element={<Layout />}>
-            <Route element={<CustomerRoutes />}>
+          <Route element={<CustomerRoutes />}>
+            <Route element={<Layout />}>
               <Route path="/" element={<HomePage products={products} />} />
               <Route path="/products" element={<ProductPage products={products} />} />
               <Route path="/product/:id" element={<ProductDetailPage similarProducts={products} />} />
               <Route path="/contact-us" element={<ContactUs />} />
               <Route path="/about-us" element={<AboutUs />} />
             </Route>
+          </Route>
 
-            <Route element={<CustomerPrivateRoutes />}>
+          <Route element={<CustomerPrivateRoutes />}>
+            <Route element={<Layout />}>
               <Route path="/cart" element={<CartPage cartProducts={products} />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/wishlist" element={<WishListPage wishlistProducts={products} />} />
@@ -228,8 +230,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           </Route>
 
           {/* ADMIN ROUTES */}
-          <Route element={<AdminLayout />}>
-            <Route element={<AdminPrivateRoutes />}>
+          <Route element={<AdminPrivateRoutes />}>
+            <Route element={<AdminLayout />}>
               <Route path="/admin" element={<Dashboard />} />
               <Route path="/admin/add-product" element={<AddProduct />} />
             </Route>

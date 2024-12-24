@@ -59,12 +59,18 @@
   }
 
   .productInfo {
+    padding-top: 15px;
+
+    span {
+      color: #989898;
+    }
+
     h6 {
       font-size: 18px;
       font-weight: 400;
       color: #1c1c1c;
       padding-bottom: 5px;
-      padding-top: 15px;
+
 
       @media (max-width: 768px) {
         font-size: 16px;
@@ -75,6 +81,18 @@
       font-size: 16px;
       font-weight: 500;
       color: #1c1c1c;
+
+      small {
+        color: #989898;
+        font-size: 16px;
+        text-decoration: line-through;
+      }
+
+      span {
+        color: #27ae60;
+        font-size: 16px;
+        font-weight: 400;
+      }
 
       @media (max-width: 768px) {
         font-size: 14px;

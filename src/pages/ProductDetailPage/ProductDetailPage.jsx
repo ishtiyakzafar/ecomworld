@@ -39,7 +39,7 @@ const ProductDetailPage = ({ similarProducts }) => {
 
         <div className={s.productDetail}>
           <div className='row g-4 g-md-5'>
-            <div className='col-md-12 col-lg-6 col-xl-5'>
+            <div className='col-md-12 col-lg-6 col-xl-6'>
               <ProductDetailImage details={details} />
             </div>
             <div className='col-md-12 col-lg-6'>

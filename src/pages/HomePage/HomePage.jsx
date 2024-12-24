@@ -11,12 +11,16 @@ import productService from '../../services/product';
 
 
 const HomePage = () => {
-  const [products, setProducts] = useState([]);
+  const [newArrivalProducts, setNewArrivalProducts] = useState([]);
+  const [bestSellerProducts, setBestSellerProducts] = useState([]);
+  const [onSaleProducts, setOnSaleProducts] = useState([]);
 
   const fetchAllProducts = async () => {
     try {
       const res = await productService.getProductsByType();
-      setProducts(res);
+      setNewArrivalProducts(res.filter((item) => item.productType === 'newarrival'));
+      setBestSellerProducts(res.filter((item) => item.productType === 'bestseller'));
+      setOnSaleProducts(res.filter((item) => item.productType === 'onsale'));
     } catch (error) {
       console.log(error);
     }
@@ -30,9 +34,9 @@ const HomePage = () => {
     <>
       <HeroSection />
       <CategorySection />
-      <NewArrivalsSection products={products} />
-      <BestSellerSection products={products} />
-      <OnSaleSection products={products} />
+      <NewArrivalsSection products={newArrivalProducts} />
+      <BestSellerSection products={bestSellerProducts} />
+      <OnSaleSection products={onSaleProducts} />
       <SavingZoneSection />
       <ServiceSection />
     </>

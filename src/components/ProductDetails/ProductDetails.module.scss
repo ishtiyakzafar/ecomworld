@@ -14,10 +14,34 @@
 
     h4 {
       font-size: 25px;
+      padding-bottom: 10px;
 
       small {
         color: #989898;
         font-size: 16px;
+        text-decoration: line-through;
+      }
+
+      span {
+        color: #27ae60;
+        font-size: 16px;
+        font-weight: 400;
+      }
+    }
+  }
+
+  .productRating {
+    display: flex;
+
+    p {
+      margin-top: 4px;
+      padding-left: 10px;
+      color: #989898;
+      font-size: 15px;
+
+      a {
+        color: #eb3b5a;
+        text-decoration: none;
       }
     }
   }
@@ -25,24 +49,40 @@
   .productSize {
     padding-top: 10px;
 
+    p {
+      color: #1c1c1c;
+
+      span {
+        font-weight: 500;
+      }
+    }
+
     .sizeOption {
       display: flex;
       gap: 10px;
       padding-top: 10px;
 
-      p {
-        color: #1c1c1c;
-      }
-
       .size {
-        width: 40px;
-        height: 40px;
-        font-size: 14px;
-        line-height: 40px;
+        color: #1c1c1c;
+        width: 45px;
+        height: 55px;
+        font-size: 16px;
+        line-height: 55px;
         text-align: center;
         border-radius: 5px;
-        border: 1px solid #989898;
+        border: 1px solid #ddd;
         cursor: pointer;
+        // transition: all 0.3s;
+
+        &:hover {
+          border: 1px solid #1c1c1c;
+        }
+      }
+
+      .size.active {
+        background: #1c1c1c;
+        color: #fff;
+        border: 1px solid #1c1c1c;
       }
     }
   }
@@ -53,29 +93,9 @@
     p {
       color: #1c1c1c;
       padding-bottom: 10px;
-    }
 
-    .colorOption {
-      display: flex;
-      gap: 10px;
-
-      .color {
-        width: 27px;
-        height: 27px;
-        border: 1px solid #989898;
-        border-radius: 50%;
-        position: relative;
-
-        &::after {
-          content: "";
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-        }
+      span {
+        font-weight: 500;
       }
     }
   }
