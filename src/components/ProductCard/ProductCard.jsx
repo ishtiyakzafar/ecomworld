@@ -10,14 +10,14 @@ const ProductCard = ({ item }) => {
           <i className="fa-regular fa-heart"></i>
         </div>
         <Link to={`/product/${item._id}`}>
-          <img src={item.images[0]} alt="img" />
+          <img src='https://ecomusnext-themesflat.vercel.app/images/products/white-4.jpg' alt="img" />
         </Link>
       </div>
       <div className={s.productInfo}>
         <span>{item.brand}</span>
         <h6>{item.title}</h6>
         <p>
-          ₹{item.discountPrice} <small>₹{item.price}</small>{" "}
+          ₹{item.discountedPrice} <small>₹{item.price}</small>{" "}
           <span>{item.discountPercent}% Off</span>
         </p>
       </div>

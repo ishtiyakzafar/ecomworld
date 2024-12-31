@@ -3,10 +3,10 @@ import s from "./ProductDetailPage.module.scss";
 import { Link, useLocation, useParams } from 'react-router-dom';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
-import ProductDetails from '../../components/ProductDetails/ProductDetails';
+import ProductDetails from '../../components/ProductInformation/ProductDetails';
 import ProductDetailsTags from '../../components/ProductDetailsTags/ProductDetailsTags';
 import productService from '../../services/product';
-import ProductDetailImages from '../../components/ProductDetailImages/ProductDetailImages';
+import ProductImageSlider from '../../components/ProductImageSlider/ProductImageSlider';
 
 const ProductDetailPage = ({ similarProducts }) => {
   const { id } = useParams();
@@ -40,7 +40,7 @@ const ProductDetailPage = ({ similarProducts }) => {
         <div className={s.productDetail}>
           <div className='row g-4 g-md-5'>
             <div className='col-md-12 col-lg-6 col-xl-6'>
-              <ProductDetailImages details={details} />
+              <ProductImageSlider details={details} />
             </div>
             <div className='col-md-12 col-lg-6'>
               <ProductDetails details={details} />

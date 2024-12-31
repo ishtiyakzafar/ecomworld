@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import userService from "../../services/user";
+import authService from "../../services/auth";
 
 const Register = ({ setStep }) => {
   const [name, setName] = useState("");
@@ -10,7 +10,7 @@ const Register = ({ setStep }) => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await userService.register({ name, email, password });
+      const res = await authService.signup({ name, email, password });
     } catch (error) {
       console.log(error);
     }

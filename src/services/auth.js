@@ -1,15 +1,15 @@
 import http from "./http";
 
-const login = (data) => {
-  return http.post('users/login', data);
+const signin = (data) => {
+  return http.post('auth/signin', data);
 }
-const register = (data) => {
-  return http.post('register', data);
+const signup = (data) => {
+  return http.post('auth/signup', data);
 }
 
 const authService = {
-  login,
-  register,
+  signin,
+  signup,
 };
 
 export default authService;

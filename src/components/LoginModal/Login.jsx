@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import userService from "../../services/user";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import { actionLogin } from "../../store/userSlice";
+import authService from "../../services/auth";
 
 const Login = ({ setStep }) => {
   const [email, setEmail] = useState("ishtiyak@gmail.com");
@@ -11,7 +11,7 @@ const Login = ({ setStep }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await userService.login({ email, password });
+      const res = await authService.signin({ email, password });
       dispatch(actionLogin(res));
     } catch (error) {
       console.log(error);

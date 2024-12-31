@@ -7,11 +7,6 @@ import { LiaShippingFastSolid } from "react-icons/lia";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 
-const sizes = [
-  { id: 1, size: "S" },
-  { id: 2, size: "M" },
-  { id: 3, size: "L" },
-];
 
 const ProductDetails = ({ details }) => {
   const [size, setSize] = useState("");
@@ -22,7 +17,7 @@ const ProductDetails = ({ details }) => {
         <h1>{details.title}</h1>
         <p>{details.brand}</p>
         <h4>
-          ₹{details.discountPrice} <small>₹{details.price}</small>{" "}
+          ₹{details.discountedPrice} <small>₹{details.price}</small>{" "}
           <span>{details.discountPercent}% Off</span>
         </h4>
       </div>
@@ -46,13 +41,13 @@ const ProductDetails = ({ details }) => {
           Size:<span>{size}</span>
         </p>
         <div className={s.sizeOption}>
-          {sizes.map((item) => (
+          {details.size?.map((item) => (
             <div
-              onClick={() => setSize(item.size)}
-              key={item.id}
-              className={`${s.size} ${item.size === size && s.active}`}
+              onClick={() => setSize(item.name)}
+              key={item._id}
+              className={`${s.size} ${item.name === size && s.active}`}
             >
-              {item.size}
+              {item.name}
             </div>
           ))}
         </div>
