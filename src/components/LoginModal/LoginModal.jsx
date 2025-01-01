@@ -4,16 +4,19 @@ import { MdClose } from "react-icons/md";
 import Register from "./Register";
 import ResetPassword from "./ResetPassword";
 import Login from "./Login";
+import { useDispatch } from "react-redux";
+import { actionToggleLoginPopup } from "../../store/appSlice";
 
 const LoginModal = ({ showLoginPopup }) => {
   const [step, setStep] = useState(1);
+  const dispatch = useDispatch();
 
   return (
     <div className="login">
       <div className="login_popup">
         <div
           onClick={() => {
-            showLoginPopup(false);
+            dispatch(actionToggleLoginPopup(false))
             // const body = document.querySelector("body");
             // body.style.overflow = "auto";
           }}

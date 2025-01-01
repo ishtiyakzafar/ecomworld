@@ -56,6 +56,16 @@
           font-size: 12px;
         }
       }
+
+      small {
+        color: #1c1c1c;
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+          color: #eb3b5a;
+        }
+      }
     }
   }
 }

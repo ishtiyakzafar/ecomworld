@@ -4,14 +4,15 @@ import { Outlet } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import LoginModal from "../LoginModal/LoginModal";
+import { useSelector } from "react-redux";
 
 const Layout = () => {
-  const [loginPopup, showLoginPopup] = useState(false);
+  const { showLoginPopup } = useSelector((state) => state.app);
 
   return (
     <div style={{ overflow: "hidden" }}>
-      {loginPopup && <LoginModal showLoginPopup={showLoginPopup} />}
-      <Header showLoginPopup={showLoginPopup} />
+      {showLoginPopup && <LoginModal />}
+      <Header />
       <Outlet />
       <Footer />
     </div>

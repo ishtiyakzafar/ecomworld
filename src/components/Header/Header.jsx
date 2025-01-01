@@ -8,8 +8,9 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { actionLogout } from '../../store/authSlice';
+import { actionToggleLoginPopup } from '../../store/appSlice';
 
-const Header = ({ showLoginPopup }) => {
+const Header = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -33,15 +34,13 @@ const Header = ({ showLoginPopup }) => {
         <IoSearchOutline />
         {!isLoggedIn && <FiUser
           onClick={() => {
-            showLoginPopup(true);
+            dispatch(actionToggleLoginPopup(true))
             // const body = document.querySelector('body');
             // body.style.overflow = 'hidden';
           }}
         />}
-        {isLoggedIn && <>
-          <Link className={s.wishlistIcon} to='/wishlist'><IoMdHeartEmpty /></Link>
-          <Link className={s.cartIcon} to='/cart'><LiaShoppingBagSolid /></Link>
-        </>}
+        <Link className={s.wishlistIcon} to='/wishlist'><IoMdHeartEmpty /></Link>
+        <Link className={s.cartIcon} to='/cart'><LiaShoppingBagSolid /></Link>
       </div>
     </header>
   )

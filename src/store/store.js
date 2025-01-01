@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer, { actionLogin } from './authSlice';
-import expenseReducer from './expenseSlice';
-import budgetReducer from './budgetSlice';
+import productReducer from './productSlice';
+import appReducer from './appSlice';
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
-        expense: expenseReducer,
-        budget: budgetReducer,
+        product: productReducer,
+        app: appReducer,
     }
 })
 

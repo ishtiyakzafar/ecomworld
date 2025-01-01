@@ -1,9 +1,14 @@
 import React from 'react';
 import s from "./OrderSummary.module.scss";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { actionToggleLoginPopup } from '../../store/appSlice';
+
 
 const OrderSummary = () => {
   const navigate = useNavigate();
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   return (
     <div className={s.orderSummary}>
@@ -20,7 +25,7 @@ const OrderSummary = () => {
         <p>Total</p>
         <p>₹600</p>
       </div>
-      <button onClick={() => navigate('/checkout')}>Proceed to Checkout</button>
+      <button onClick={() => isLoggedIn ? navigate('/checkout') : dispatch(actionToggleLoginPopup(true))}>Proceed to Checkout</button>
     </div>
   )
 };

@@ -218,14 +218,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <Route path="/product/:id" element={<ProductDetailPage similarProducts={products} />} />
               <Route path="/contact-us" element={<ContactUs />} />
               <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/cart" element={<CartPage cartProducts={products} />} />
+              <Route path="/wishlist" element={<WishListPage wishlistProducts={products} />} />
             </Route>
           </Route>
 
           <Route element={<CustomerPrivateRoutes />}>
             <Route element={<Layout />}>
-              <Route path="/cart" element={<CartPage cartProducts={products} />} />
               <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/wishlist" element={<WishListPage wishlistProducts={products} />} />
             </Route>
           </Route>
 

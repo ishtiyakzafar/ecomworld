@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './WishListPage.scss';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionRemoveFromWishlist } from '../../store/productSlice';
 
-const WishListPage = ({ wishlistProducts }) => {
+const WishListPage = () => {
+  const { wishlist } = useSelector((state) => state.product);
+  const dispatch = useDispatch();
+
   return (
     <div className='container'>
       <div className='wishlistPage'>
@@ -19,18 +24,19 @@ const WishListPage = ({ wishlistProducts }) => {
             </thead>
             <tbody>
               {
-                wishlistProducts.slice(0, 3).map((item) => (
+                wishlist.map((item) => (
                   <tr key={item._id}>
                     <td>
                       <div className='product'>
-                        <img src={item.img} alt="img" />
+                        <img src='https://ecomusnext-themesflat.vercel.app/images/products/orange-1.jpg' alt="img" />
                         <div className='productInfo'>
                           <h6>{item.title}</h6>
-                          <p>White / M</p>
+                          <p>{item.color} / M</p>
+                          <small onClick={() => dispatch(actionRemoveFromWishlist(item._id))}>Remove</small>
                         </div>
                       </div>
                     </td>
-                    <td>₹{item.price}</td>
+                    <td>₹{item.discountedPrice}</td>
                     <td>In-stock</td>
                     <td>
                       <button>Add to cart</button>

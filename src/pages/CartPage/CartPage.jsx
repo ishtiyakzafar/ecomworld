@@ -4,8 +4,13 @@ import { IoAddOutline } from "react-icons/io5";
 import { FiMinus } from "react-icons/fi";
 import OrderSummary from '../../components/OrderSummary/OrderSummary';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionRemoveFromCart } from '../../store/productSlice';
 
-const CartPage = ({ cartProducts }) => {
+const CartPage = () => {
+  const { cart } = useSelector((state) => state.product);
+  const dispatch = useDispatch();
+
   return (
     <div className='container'>
       <div className={s.cartPageBox}>
@@ -25,15 +30,15 @@ const CartPage = ({ cartProducts }) => {
                 </thead>
                 <tbody>
                   {
-                    cartProducts.slice(12, 15).map((item) => (
+                    cart.map((item) => (
                       <tr key={item._id}>
                         <td>
                           <div className={s.product}>
-                            <img src={item.img} alt="img" />
+                            <img src='https://ecomusnext-themesflat.vercel.app/images/products/orange-1.jpg' alt="img" />
                             <div className={s.productInfo}>
                               <h6>{item.title}</h6>
-                              <p>White / M</p>
-                              <small>Remove</small>
+                              <p>{item.color} / M</p>
+                              <small onClick={() => dispatch(actionRemoveFromCart(item._id))}>Remove</small>
                             </div>
                           </div>
                         </td>

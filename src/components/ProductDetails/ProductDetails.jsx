@@ -6,10 +6,13 @@ import { LiaCertificateSolid } from "react-icons/lia";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
+import { useDispatch } from 'react-redux';
+import { actionAddToCart, actionAddToWishlist } from "../../store/productSlice";
 
 
 const ProductDetails = ({ details }) => {
   const [size, setSize] = useState("");
+  const dispatch = useDispatch();
 
   return (
     <div className={s.productInfo}>
@@ -59,16 +62,15 @@ const ProductDetails = ({ details }) => {
       </div>
 
       <div className={s.productBtn}>
-        <Link to="/cart">
-          <button className={s.addToCart}>
-            <GiShoppingBag /> Add to Cart
-          </button>
-        </Link>
-        <Link to="/wishlist">
-          <button className={s.addToWishlist}>
-            <FaRegHeart /> Wishlist
-          </button>
-        </Link>
+        <button onClick={() => dispatch(actionAddToCart(details))} className={s.addToCart}>
+          <GiShoppingBag /> Add to Cart
+        </button>
+
+
+        <button onClick={() => dispatch(actionAddToWishlist(details))} className={s.addToWishlist}>
+          <FaRegHeart /> Wishlist
+        </button>
+
       </div>
 
       <div className={s.extraInfo}>
