@@ -2,18 +2,17 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     user: {
-        "token": "",
-        "_id": "",
-        "email": "",
-        "name": ""
+        token: "",
+        id: "",
+        email: "",
+        name: "",
     },
     isLoggedIn: false,
-    showPopup: false,
 };
 
 
-const userSlice = createSlice({
-    name: 'user',
+const authSlice = createSlice({
+    name: 'auth',
     initialState,
     reducers: {
         actionLogin(state, action) {
@@ -26,9 +25,6 @@ const userSlice = createSlice({
             state.user = initialState.user;
             state.isLoggedIn = initialState.isLoggedIn;
         },
-        actionShowPopup(state, action) {
-            state.showPopup = action.payload;
-        },
     }
 })
 
@@ -36,5 +32,5 @@ export const {
     actionLogin,
     actionLogout,
     actionShowPopup
-} = userSlice.actions;
-export default userSlice.reducer;
+} = authSlice.actions;
+export default authSlice.reducer;

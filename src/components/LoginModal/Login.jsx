@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { actionLogin } from "../../store/userSlice";
+import { actionLogin } from "../../store/authSlice";
 import authService from "../../services/auth";
 
 const Login = ({ setStep }) => {
@@ -12,7 +12,7 @@ const Login = ({ setStep }) => {
     e.preventDefault();
     try {
       const res = await authService.signin({ email, password });
-      dispatch(actionLogin(res));
+      dispatch(actionLogin(res.userDetails));
     } catch (error) {
       console.log(error);
     }

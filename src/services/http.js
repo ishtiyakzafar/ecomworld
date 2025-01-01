@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "../store/store";
-import { actionLogout } from "../store/userSlice";
+import { actionLogout } from "../store/authSlice";
 
 class RestfulProvider {
   constructor() {

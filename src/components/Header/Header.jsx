@@ -7,10 +7,10 @@ import { FiUser } from "react-icons/fi";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
-import { actionLogout } from '../../store/userSlice';
+import { actionLogout } from '../../store/authSlice';
 
 const Header = ({ showLoginPopup }) => {
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   return (

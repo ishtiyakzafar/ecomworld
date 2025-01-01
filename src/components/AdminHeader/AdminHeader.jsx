@@ -2,11 +2,11 @@ import React from 'react';
 import './AdminHeader.scss';
 import userImg from '../../assets/icons/profile.jpeg';
 import { useDispatch, useSelector } from 'react-redux';
-import { actionLogout } from '../../store/userSlice';
+import { actionLogout } from '../../store/authSlice';
 
 const AdminHeader = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <div className='header'>

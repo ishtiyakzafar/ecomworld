@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import authService from "../../services/auth";
+import { useDispatch } from "react-redux";
+import { actionLogin } from "../../store/authSlice";
 
 const Register = ({ setStep }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
+  const dispatch = useDispatch();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
       const res = await authService.signup({ name, email, password });
+      dispatch(actionLogin(res.userDetails));
     } catch (error) {
       console.log(error);
     }
