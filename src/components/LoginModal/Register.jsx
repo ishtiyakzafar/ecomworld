@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import authService from "../../services/auth";
 import { useDispatch } from "react-redux";
 import { actionLogin } from "../../store/authSlice";
+import { actionToggleLoginPopup } from "../../store/appSlice";
 
 const Register = ({ setStep }) => {
   const [name, setName] = useState("");
@@ -15,6 +16,10 @@ const Register = ({ setStep }) => {
     try {
       const res = await authService.signup({ name, email, password });
       dispatch(actionLogin(res.userDetails));
+      dispatch(actionToggleLoginPopup(false));
+      
+
+
     } catch (error) {
       console.log(error);
     }

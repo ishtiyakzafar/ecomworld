@@ -1,4 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+import ShortUniqueId from 'short-unique-id';
+const uid = new ShortUniqueId();
 
 const initialState = {
   wishlist: JSON.parse(localStorage.getItem('wishlist')) || [],
@@ -14,32 +17,75 @@ const productSlice = createSlice({
       if (!state.wishlist.some((item) => item._id === action.payload._id)) {
         state.wishlist = [action.payload, ...state.wishlist];
         localStorage.setItem('wishlist', JSON.stringify(state.wishlist));
+        toast.success("Added to wishlist");
+      } else {
+        toast.error("Already in wishlist");
       }
     },
 
     actionRemoveFromWishlist(state, action) {
       state.wishlist = state.wishlist.filter((item) => item._id !== action.payload);;
       localStorage.setItem('wishlist', JSON.stringify(state.wishlist));
+      toast.success("Removed from wishlist");
+    },
+
+    actionSetCart(state, action) {
+      state.cart = action.payload.map((item) => ({ product: item.productId, ...item }));
     },
 
     actionAddToCart(state, action) {
-      if (!state.cart.some((item) => item._id === action.payload._id)) {
-        state.cart = [action.payload, ...state.cart];
-        localStorage.setItem('cart', JSON.stringify(state.cart));
+      const { product, size } = action.payload;
+
+      const index = state.cart.findIndex((item) => item.product._id === product._id && item.size === size);
+
+      if (index === -1) {
+        state.cart = [{ _id: uid(), product, quantity: 1, size }, ...state.cart];
+      } else {
+        state.cart[index].quantity += 1;
       }
+
+      localStorage.setItem('cart', JSON.stringify(state.cart));
+      toast.success("Item added to cart");
     },
 
     actionRemoveFromCart(state, action) {
-      state.cart = state.cart.filter((item) => item._id !== action.payload);;
+      state.cart = state.cart.filter((item) => item._id !== action.payload);
       localStorage.setItem('cart', JSON.stringify(state.cart));
     },
 
-    actionDeleteWishlist(state, action) {
-      state.wishlist = state.wishlist.filter((item) => item._id !== action.payload);
+    actionAddtoCartFromWishlist(state, action) {
+
+      if (!state.cart.some((item) => item._id === action.payload._id)) {
+
+        state.cart = [item, ...state.cart];
+
+        localStorage.setItem('cart', JSON.stringify(state.cart));
+
+      } else {
+
+      }
     },
-    actionUpdateWishlist(state, action) {
-      const index = state.wishlist.findIndex((item) => item._id === action.payload._id);
-      state.wishlist[index] = action.payload;
+
+    actionIncQty(state, action) {
+      const index = state.cart.findIndex((item) => item._id === action.payload);
+
+      if (state.cart[index].product.quantity > state.cart[index].quantity) {
+        state.cart[index].quantity += 1;
+      } else {
+        toast.error("Only " + state.cart[index].product.quantity + " item available");
+      }
+
+      // localStorage.setItem('cart', JSON.stringify(state.cart));
+    },
+
+    actionDecQty(state, action) {
+      const index = state.cart.findIndex((item) => item._id === action.payload);
+
+      if (state.cart[index].quantity > 1) {
+        state.cart[index].quantity -= 1;
+      }
+
+      // localStorage.setItem('cart', JSON.stringify(state.cart));
     }
   }
 })
@@ -47,9 +93,12 @@ const productSlice = createSlice({
 export const {
   actionAddToWishlist,
   actionRemoveFromWishlist,
+  actionSetCart,
   actionAddToCart,
   actionRemoveFromCart,
-  actionDeleteWishlist,
+  actionAddtoCartFromWishlist,
   actionUpdateWishlist,
+  actionIncQty,
+  actionDecQty,
 } = productSlice.actions;
 export default productSlice.reducer;

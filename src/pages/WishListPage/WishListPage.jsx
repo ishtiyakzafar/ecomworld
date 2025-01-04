@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './WishListPage.scss';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import { useDispatch, useSelector } from 'react-redux';
-import { actionRemoveFromWishlist } from '../../store/productSlice';
+import { actionAddtoCartFromWishlist, actionRemoveFromWishlist } from '../../store/productSlice';
 
 const WishListPage = () => {
   const { wishlist } = useSelector((state) => state.product);
@@ -39,7 +39,7 @@ const WishListPage = () => {
                     <td>₹{item.discountedPrice}</td>
                     <td>In-stock</td>
                     <td>
-                      <button>Add to cart</button>
+                      <button onClick={() => dispatch(actionAddtoCartFromWishlist(item))}>Add to cart</button>
                     </td>
                   </tr>
                 ))

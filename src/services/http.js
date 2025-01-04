@@ -9,7 +9,7 @@ class RestfulProvider {
 
   setCommonHeaders = () => {
     const user = JSON.parse(localStorage.getItem("user"));
-    user?.token && (axios.defaults.headers.common["Authorization"] = user?.token);
+    user?.token && (axios.defaults.headers.common["Authorization"] = `Bearer ${user?.token}`);
   };
 
   makeCall = (url, data, axiosMethod) => {

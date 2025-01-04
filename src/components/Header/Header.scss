@@ -1,0 +1,154 @@
+header {
+  height: 70px;
+  line-height: 70px;
+  padding: 0 20px;
+  border-bottom: 1px solid #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .headerLeft {
+    display: flex;
+    align-items: center;
+
+    svg {
+      font-size: 20px;
+      margin-right: 20px;
+      cursor: pointer;
+      display: none;
+
+      @media (max-width: 1100px) {
+        display: block;
+      }
+    }
+  }
+
+  .logo {
+    color: #1c1c1c;
+    font-size: 25px;
+    font-weight: 700;
+    text-decoration: none;
+
+    @media (max-width: 768px) {
+      font-size: 20px;
+    }
+
+    span {
+      color: #eb3b5a;
+    }
+  }
+
+  .menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+
+    @media (max-width: 1100px) {
+      display: none;
+    }
+
+    li {
+      list-style: none;
+
+      a {
+        text-decoration: none;
+        color: #1c1c1c;
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+
+        &:hover {
+          color: #eb3b5a;
+        }
+      }
+    }
+  }
+
+  .headerIcon {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    svg {
+      font-size: 20px;
+      color: #1c1c1c;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        color: #eb3b5a;
+      }
+    }
+
+    @media (max-width: 1100px) {
+
+      .wishlistIcon,
+      .cartIcon {
+        // display: none;
+      }
+    }
+
+    .custom_dropdown {
+      cursor: pointer;
+      line-height: normal;
+      position: relative;
+
+      img {
+        width: 50px;
+      }
+
+      ul {
+        position: absolute;
+        right: -10px;
+        width: 180px;
+        border-radius: 5px;
+        line-height: normal;
+        box-shadow: 0px 6px 10px 0px #e7e8ed99;
+        overflow: hidden;
+        background: #fff;
+        z-index: 100;
+        padding: 5px;
+
+        li {
+          line-height: 35px;
+          list-style: none;
+          padding-left: 10px;
+          cursor: pointer;
+          color: #1c1c1c;
+          transition: all 0.3s ease;
+          font-size: 16px;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          svg {
+            margin-right: 5px;
+          }
+
+          a {
+            text-decoration: none;
+            color: #1c1c1c;
+            display: block;
+            line-height: 35px;
+
+            &:hover {
+              color: #eb3b5a;
+            }
+          }
+
+          &:hover {
+            background: #f1f1f1;
+            color: #eb3b5a;
+
+            svg {
+              color: #eb3b5a;
+            }
+          }
+        }
+      }
+    }
+
+  }
+}

@@ -2,17 +2,26 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { actionLogin } from "../../store/authSlice";
 import authService from "../../services/auth";
+import { actionToggleLoginPopup } from "../../store/appSlice";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = ({ setStep }) => {
   const [email, setEmail] = useState("ishtiyak@gmail.com");
   const [password, setPassword] = useState("123456");
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const res = await authService.signin({ email, password });
       dispatch(actionLogin(res.userDetails));
+      dispatch(actionToggleLoginPopup(false))
+
+      if (res.success && pathname === '/cart') {
+        navigate('/checkout');
+      }
     } catch (error) {
       console.log(error);
     }

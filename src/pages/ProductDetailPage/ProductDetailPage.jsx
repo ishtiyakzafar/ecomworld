@@ -3,12 +3,12 @@ import s from "./ProductDetailPage.module.scss";
 import { Link, useLocation, useParams } from 'react-router-dom';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
-import ProductDetails from '../../components/ProductDetails/ProductDetails';
+import ProductDetailSection from '../../components/ProductDetailSection/ProductDetailSection';
 import ProductDetailsTags from '../../components/ProductDetailsTags/ProductDetailsTags';
 import productService from '../../services/product';
 import ProductDetailImages from '../../components/ProductDetailImages/ProductDetailImages';
 
-const ProductDetailPage = ({ similarProducts }) => {
+const ProductDetailPage = () => {
   const { id } = useParams();
   const [details, setDetails] = useState({});
   const { pathname } = useLocation();
@@ -43,7 +43,7 @@ const ProductDetailPage = ({ similarProducts }) => {
               <ProductDetailImages details={details} />
             </div>
             <div className='col-md-12 col-lg-6'>
-              <ProductDetails details={details} />
+              <ProductDetailSection details={details} />
             </div>
           </div>
         </div>
