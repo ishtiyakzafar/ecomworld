@@ -2,12 +2,15 @@ import React, { useEffect } from 'react';
 import './WishListPage.scss';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import { useDispatch, useSelector } from 'react-redux';
-import { actionAddtoCartFromWishlist, actionRemoveFromWishlist, actionSetWishlist } from '../../store/productSlice';
 import wishlistService from '../../services/wishlist';
+import { actionRemoveFromWishlist, actionSetWishlist } from '../../store/wishlistSlice';
+import { toast } from 'react-toastify';
 
 const WishListPage = () => {
-  const { wishlist } = useSelector((state) => state.product);
+  const { wishlist } = useSelector((state) => state.wishlist);
   const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
 
   const fetchUserWishlist = async () => {
     try {
@@ -19,15 +22,18 @@ const WishListPage = () => {
   }
 
   useEffect(() => {
-    fetchUserWishlist()
+    if (isLoggedIn) {
+      fetchUserWishlist();
+    }
   }, [])
 
   const deleteItemFromWishlist = async (id) => {
     try {
       const res = await wishlistService.deleteItemFromWishlist(id);
-      dispatch(actionRemoveFromWishlist(id))
+      dispatch(actionRemoveFromWishlist(id));
+      toast.error('Product remove from your wishlist');
     } catch (error) {
-      console.log(error)
+      toast.error(res.message);
     }
   }
 
@@ -62,7 +68,7 @@ const WishListPage = () => {
                     <td>₹{item.discountedPrice}</td>
                     <td>In-stock</td>
                     <td>
-                      <button onClick={() => dispatch(actionAddtoCartFromWishlist(item))}>Add to cart</button>
+                      <button>Add to cart</button>
                     </td>
                   </tr>
                 ))

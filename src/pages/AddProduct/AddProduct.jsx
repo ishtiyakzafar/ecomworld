@@ -114,9 +114,9 @@ const AddProduct = () => {
             name='quantity'
           />
         </div>
-        <div class="col-md-4">
-          <label for="productType" class="form-label">Product Type</label>
-          <select name='productType' onChange={handleOnChange} value={productDetails.productType} id="productType" class="form-select">
+        <div className="col-md-4">
+          <label for="productType" className="form-label">Product Type</label>
+          <select name='productType' onChange={handleOnChange} value={productDetails.productType} id="productType" className="form-select">
             <option selected>Choose...</option>
             <option value="newarrival">New Arrival</option>
             <option value="bestseller">Best Seller</option>

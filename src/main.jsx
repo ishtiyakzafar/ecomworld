@@ -15,7 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Suspense fallback={<Loader />}>
     <Provider store={store}>
-      <ToastContainer theme="colored" />
+      <ToastContainer position="bottom-center" theme="colored" />
       <App />
     </Provider>
   </Suspense>

@@ -16,6 +16,8 @@ const CartPage = lazy(() => import("./pages/CartPage/CartPage.jsx"));
 const CheckoutPage = lazy(() => import("./pages/CheckoutPage/CheckoutPage.jsx"));
 const AboutUs = lazy(() => import("./pages/AboutUs/AboutUs.jsx"));
 const ContactUs = lazy(() => import("./pages/ContactUs/ContactUs.jsx"));
+const LoginPage = lazy(() => import("./pages/LoginPage/LoginPage.jsx"));
+
 
 
 const App = () => {
@@ -26,6 +28,7 @@ const App = () => {
         <Route element={<CustomerRoutes />}>
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/products" element={<ProductPage />} />
             <Route path="/product/:id" element={<ProductDetailPage />} />
             <Route path="/contact-us" element={<ContactUs />} />

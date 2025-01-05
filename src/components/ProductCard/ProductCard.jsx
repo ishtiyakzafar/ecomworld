@@ -1,19 +1,33 @@
 import React from "react";
 import s from "./ProductCard.module.scss";
 import { Link } from "react-router-dom";
-import { actionAddToWishlist } from "../../store/productSlice";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import wishlistService from "../../services/wishlist";
+import { actionToggleLoginPopup } from '../../store/appSlice';
+import { toast } from "react-toastify";
+import { actionAddToWishlist } from "../../store/wishlistSlice";
 
 const ProductCard = ({ item }) => {
   const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
 
   const addToWishlist = async () => {
+    if (!isLoggedIn) {
+      dispatch(actionToggleLoginPopup(true));
+      return toast.error("Please login to add to wishlist");
+    }
+
     try {
       const res = await wishlistService.addItemToWhislist({ productId: item._id });
-      dispatch(actionAddToWishlist(item));
+      if (res.success) {
+        dispatch(actionAddToWishlist(item));
+        toast.success('Product added to your wishlist');
+      } else {
+        toast.error('Product already added to your wishlist');
+      }
     } catch (error) {
-      console.log(error)
+      toast.error(error);
     }
   }
 

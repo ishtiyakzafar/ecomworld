@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import cartService from "../services/cart";
+import store from "./store";
+import { actionSetCart } from "./productSlice";
+
 
 const initialState = {
     user: {
@@ -10,6 +13,14 @@ const initialState = {
     },
     isLoggedIn: false,
 };
+
+const fetchUserCart = () => {
+    cartService.getUserCart().then((cart) => {
+        store.dispatch(actionSetCart(cart))
+    }).catch((error) => {
+        console.log(error)
+    })
+}
 
 
 const authSlice = createSlice({
@@ -23,7 +34,7 @@ const authSlice = createSlice({
 
             const products = JSON.parse(localStorage.getItem('cart'));
 
-            if (products) {
+            if (products && products.length > 0) {
                 let data = []
 
                 for (const element of products) {
@@ -36,9 +47,18 @@ const authSlice = createSlice({
 
                 cartService.addCartItems({ cartItems: data }).then((res) => {
                     localStorage.removeItem('cart');
+                    if (window.location.pathname === '/cart') {
+                        // fetchUserCart();
+                    }
                 }).catch((error) => {
                     console.log(error)
                 })
+            } else {
+
+            }
+
+            if (window.location.pathname === '/cart') {
+                // fetchUserCart();
             }
 
         },

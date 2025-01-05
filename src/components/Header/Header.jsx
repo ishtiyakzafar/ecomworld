@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./Header.scss";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LiaShoppingBagSolid } from "react-icons/lia";
 import { IoSearchOutline } from "react-icons/io5";
 import { FiUser } from "react-icons/fi";
@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionLogout } from '../../store/authSlice';
 import { actionToggleLoginPopup } from '../../store/appSlice';
 import userIcon from '../../assets/icons/user.svg';
+import { actionSetCart } from '../../store/productSlice';
+import { actionSetWishlist } from '../../store/wishlistSlice';
 
 
 const Header = () => {
@@ -17,6 +19,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   return (
     <header>
@@ -35,13 +38,7 @@ const Header = () => {
 
       <div className='headerIcon'>
         <IoSearchOutline />
-        {!isLoggedIn && <FiUser
-          onClick={() => {
-            dispatch(actionToggleLoginPopup(true))
-            // const body = document.querySelector('body');
-            // body.style.overflow = 'hidden';
-          }}
-        />}
+        <Link to='/login'><FiUser /></Link>
         <Link className='wishlistIcon' to='/wishlist'><IoMdHeartEmpty /></Link>
         <Link className='cartIcon' to='/cart'><LiaShoppingBagSolid /></Link>
 
@@ -49,7 +46,7 @@ const Header = () => {
           <>
             <p>Hi, {user.name}</p>
 
-            <div onMouseEnter={() => setShowDropdown(true)} onMouseLeave={() => setShowDropdown(false)} class="custom_dropdown">
+            <div onMouseEnter={() => setShowDropdown(true)} onMouseLeave={() => setShowDropdown(false)} className="custom_dropdown">
               <img src={userIcon} alt="userIcon" />
               {showDropdown &&
                 <ul>
@@ -93,6 +90,11 @@ const Header = () => {
                     onClick={() => {
                       dispatch(actionLogout());
                       setShowDropdown(false);
+                      if (pathname === '/wishlist' || pathname === '/cart') {
+                        dispatch(actionSetWishlist([]));
+                        dispatch(actionSetCart([]));
+                        navigate('/');
+                      }
                     }}
                   >
                     <IoMdHeartEmpty /> Logout

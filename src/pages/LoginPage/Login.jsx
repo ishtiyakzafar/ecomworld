@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { actionLogin } from "../../store/authSlice";
 import authService from "../../services/auth";
-import { actionToggleLoginPopup } from "../../store/appSlice";
 import { toast } from "react-toastify";
 
 const Login = ({ setStep }) => {
@@ -15,10 +14,6 @@ const Login = ({ setStep }) => {
     try {
       const res = await authService.signin({ email, password });
       dispatch(actionLogin(res.userDetails));
-      dispatch(actionToggleLoginPopup(false));
-
-
-
     } catch (error) {
       toast.error(error);
     }

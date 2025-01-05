@@ -7,6 +7,7 @@ import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionDecQty, actionIncQty, actionRemoveFromCart, actionSetCart } from '../../store/productSlice';
 import cartService from '../../services/cart';
+import { toast } from 'react-toastify';
 
 const CartPage = () => {
   const { cart } = useSelector((state) => state.product);
@@ -32,6 +33,7 @@ const CartPage = () => {
     try {
       isLoggedIn && await cartService.deleteCartItem(id);
       dispatch(actionRemoveFromCart(id));
+      toast.error('Product remove from your cart');
     } catch (error) {
       console.log(error)
     }
@@ -82,7 +84,7 @@ const CartPage = () => {
                           <div className={s.product}>
                             <img src='https://ecomusnext-themesflat.vercel.app/images/products/orange-1.jpg' alt="img" />
                             <div className={s.productInfo}>
-                              <h6>{item.product.title}</h6>
+                              <h6>{item.product._id}</h6>
                               <p>{item.product.color} / {item.size}</p>
                               <small onClick={() => deleteCartItem(item._id)}>Remove</small>
                             </div>

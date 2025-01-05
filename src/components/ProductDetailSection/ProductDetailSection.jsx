@@ -6,28 +6,51 @@ import { LiaCertificateSolid } from "react-icons/lia";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
-import { useDispatch } from 'react-redux';
-import { actionAddToCart, actionAddToWishlist } from "../../store/productSlice";
+import { useDispatch, useSelector } from 'react-redux';
+import { actionAddToCart } from "../../store/productSlice";
 import { toast } from "react-toastify";
 import cartService from "../../services/cart";
+import { actionAddToWishlist } from "../../store/wishlistSlice";
+import wishlistService from "../../services/wishlist";
+import { actionToggleLoginPopup } from "../../store/appSlice";
 
 
 const ProductDetailSection = ({ details }) => {
   const [size, setSize] = useState("");
   const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
 
   const handleAddTocart = async () => {
     if (size) {
       try {
-        const res = await cartService.addToCart({ productId: details._id, size });
+        isLoggedIn && await cartService.addToCart({ productId: details._id, size });
         dispatch(actionAddToCart({ product: details, size }));
+        toast.success("Product added to your cart");
       } catch (error) {
         toast.error(error);
       }
-
     } else {
       toast.error('Please select a size');
+    }
+  }
+
+  const handleAddToWishlist = async () => {
+    if (!isLoggedIn) {
+      dispatch(actionToggleLoginPopup(true));
+      return toast.error("Please login to add to wishlist");
+    }
+
+    try {
+      const res = await wishlistService.addItemToWhislist({ productId: details._id });
+      if (res.success) {
+        dispatch(actionAddToWishlist(details));
+        toast.success('Product added to your wishlist');
+      } else {
+        toast.error('Product already added to your wishlist');
+      }
+    } catch (error) {
+      toast.error(error);
     }
   }
 
@@ -85,7 +108,7 @@ const ProductDetailSection = ({ details }) => {
         </button>
 
 
-        <button onClick={() => dispatch(actionAddToWishlist(details))} className={s.addToWishlist}>
+        <button onClick={handleAddToWishlist} className={s.addToWishlist}>
           <FaRegHeart /> Wishlist
         </button>
 
