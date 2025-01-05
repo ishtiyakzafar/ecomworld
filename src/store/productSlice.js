@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import ShortUniqueId from 'short-unique-id';
 const uid = new ShortUniqueId();
+const isUser = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
   wishlist: JSON.parse(localStorage.getItem('wishlist')) || [],
@@ -12,11 +13,16 @@ const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
+    actionSetWishlist(state, action) {
+      state.wishlist = action.payload.map((item) => ({ ...item.productId }));
+    },
 
     actionAddToWishlist(state, action) {
       if (!state.wishlist.some((item) => item._id === action.payload._id)) {
         state.wishlist = [action.payload, ...state.wishlist];
-        localStorage.setItem('wishlist', JSON.stringify(state.wishlist));
+
+        !isUser && localStorage.setItem('wishlist', JSON.stringify(state.wishlist));
+
         toast.success("Added to wishlist");
       } else {
         toast.error("Already in wishlist");
@@ -25,7 +31,7 @@ const productSlice = createSlice({
 
     actionRemoveFromWishlist(state, action) {
       state.wishlist = state.wishlist.filter((item) => item._id !== action.payload);;
-      localStorage.setItem('wishlist', JSON.stringify(state.wishlist));
+      // localStorage.setItem('wishlist', JSON.stringify(state.wishlist));
       toast.success("Removed from wishlist");
     },
 
@@ -44,13 +50,13 @@ const productSlice = createSlice({
         state.cart[index].quantity += 1;
       }
 
-      localStorage.setItem('cart', JSON.stringify(state.cart));
+      !isUser && localStorage.setItem('cart', JSON.stringify(state.cart));
       toast.success("Item added to cart");
     },
 
     actionRemoveFromCart(state, action) {
       state.cart = state.cart.filter((item) => item._id !== action.payload);
-      localStorage.setItem('cart', JSON.stringify(state.cart));
+      !isUser && localStorage.setItem('cart', JSON.stringify(state.cart));
     },
 
     actionAddtoCartFromWishlist(state, action) {
@@ -68,29 +74,22 @@ const productSlice = createSlice({
 
     actionIncQty(state, action) {
       const index = state.cart.findIndex((item) => item._id === action.payload);
+      state.cart[index].quantity += 1;
 
-      if (state.cart[index].product.quantity > state.cart[index].quantity) {
-        state.cart[index].quantity += 1;
-      } else {
-        toast.error("Only " + state.cart[index].product.quantity + " item available");
-      }
-
-      // localStorage.setItem('cart', JSON.stringify(state.cart));
+      !isUser && localStorage.setItem('cart', JSON.stringify(state.cart));
     },
 
     actionDecQty(state, action) {
       const index = state.cart.findIndex((item) => item._id === action.payload);
+      state.cart[index].quantity -= 1;
 
-      if (state.cart[index].quantity > 1) {
-        state.cart[index].quantity -= 1;
-      }
-
-      // localStorage.setItem('cart', JSON.stringify(state.cart));
+      !isUser && localStorage.setItem('cart', JSON.stringify(state.cart));
     }
   }
 })
 
 export const {
+  actionSetWishlist,
   actionAddToWishlist,
   actionRemoveFromWishlist,
   actionSetCart,

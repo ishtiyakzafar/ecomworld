@@ -10,6 +10,8 @@ import cartService from '../../services/cart';
 
 const CartPage = () => {
   const { cart } = useSelector((state) => state.product);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
 
 
@@ -23,18 +25,37 @@ const CartPage = () => {
   }
 
   useEffect(() => {
-    fetchUserCart();
+    isLoggedIn && fetchUserCart();
   }, [])
 
   const deleteCartItem = async (id) => {
     try {
-      const res = await cartService.deleteCartItem(id);
-      dispatch(actionSetCart(res));
-      // dispatch(actionRemoveFromCart(id))
+      isLoggedIn && await cartService.deleteCartItem(id);
+      dispatch(actionRemoveFromCart(id));
     } catch (error) {
       console.log(error)
     }
   }
+
+
+  const increaseQty = async (id) => {
+    try {
+      isLoggedIn && await cartService.incCartItemQty(id);
+      dispatch(actionIncQty(id));
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const decreaseQty = async (id) => {
+    try {
+      isLoggedIn && await cartService.decCartItemQty(id);
+      dispatch(actionDecQty(id));
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   return (
     <div className='container'>
@@ -70,9 +91,9 @@ const CartPage = () => {
                         <td>₹{item.product.price}</td>
                         <td>
                           <div className={s.quantity}>
-                            <span onClick={() => dispatch(actionIncQty(item._id))}><IoAddOutline /></span>
+                            <span onClick={() => item.product.quantity > item.quantity && increaseQty(item._id)}><IoAddOutline /></span>
                             <p>{item.quantity}</p>
-                            <span onClick={() => dispatch(actionDecQty(item._id))}><FiMinus /></span>
+                            <span onClick={() => item.quantity > 1 && decreaseQty(item._id)}><FiMinus /></span>
                           </div>
                         </td>
                         <td>Free</td>

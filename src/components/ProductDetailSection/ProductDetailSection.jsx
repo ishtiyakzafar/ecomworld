@@ -9,6 +9,7 @@ import StarRatings from "react-star-ratings";
 import { useDispatch } from 'react-redux';
 import { actionAddToCart, actionAddToWishlist } from "../../store/productSlice";
 import { toast } from "react-toastify";
+import cartService from "../../services/cart";
 
 
 const ProductDetailSection = ({ details }) => {
@@ -16,9 +17,15 @@ const ProductDetailSection = ({ details }) => {
   const dispatch = useDispatch();
 
 
-  const handleAddTocart = () => {
+  const handleAddTocart = async () => {
     if (size) {
-      dispatch(actionAddToCart({ product: details, size }));
+      try {
+        const res = await cartService.addToCart({ productId: details._id, size });
+        dispatch(actionAddToCart({ product: details, size }));
+      } catch (error) {
+        toast.error(error);
+      }
+
     } else {
       toast.error('Please select a size');
     }
