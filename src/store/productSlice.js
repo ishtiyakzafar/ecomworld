@@ -4,6 +4,7 @@ const uid = new ShortUniqueId();
 
 const initialState = {
   cart: JSON.parse(localStorage.getItem('cart')) || [],
+  wishlist: [],
 };
 
 const productSlice = createSlice({
@@ -11,7 +12,7 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     actionSetCart(state, action) {
-      state.cart = action.payload.map((item) => ({ product: item.productId, ...item }));
+      state.cart = action.payload.map((item) => ({ product: item.productId, _id: item._id, quantity: item.quantity, size: item.size }));
     },
 
     actionAddToCart(state, action) {
@@ -54,7 +55,23 @@ const productSlice = createSlice({
       if (!JSON.parse(localStorage.getItem('user'))) {
         localStorage.setItem('cart', JSON.stringify(state.cart));
       }
-    }
+    },
+
+    actionSetWishlist(state, action) {
+      state.wishlist = action.payload;
+    },
+
+    actionAddToWishlist(state, action) {
+      state.wishlist = [action.payload, ...state.wishlist];
+    },
+
+    actionRemoveFromWishlist(state, action) {
+      state.wishlist = state.wishlist.filter((item) => item._id !== action.payload);;
+    },
+
+    actionMoveToCart(state, action) {
+      state.wishlist = action.payload;
+    },
   }
 })
 
@@ -64,5 +81,9 @@ export const {
   actionRemoveFromCart,
   actionIncQty,
   actionDecQty,
+  actionSetWishlist,
+  actionAddToWishlist,
+  actionRemoveFromWishlist,
+  actionMoveToCart,
 } = productSlice.actions;
 export default productSlice.reducer;

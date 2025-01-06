@@ -1,5 +1,5 @@
 .orderSummary {
-  background: #f1f1f1;
+  background: #F4F2F2;
   height: fit-content;
   padding: 20px;
   border-radius: 3px;
@@ -11,7 +11,13 @@
   .orderSummaryItem {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
+    color: #1c1c1c;
+
+    .discount,
+    .shipping {
+      color: #27ae60;
+    }
   }
 
   button {

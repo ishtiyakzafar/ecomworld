@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import authService from "../../services/auth";
 import { useDispatch } from "react-redux";
 import { actionLogin } from "../../store/authSlice";
-import { actionToggleLoginPopup } from "../../store/appSlice";
-import { addCartItemFromLocalStorage } from "../../utils";
 
 const Register = ({ setStep }) => {
   const [name, setName] = useState("");
@@ -17,14 +15,6 @@ const Register = ({ setStep }) => {
     try {
       const res = await authService.signup({ name, email, password });
       dispatch(actionLogin(res.userDetails));
-      dispatch(actionToggleLoginPopup(false));
-
-      // MAKE API CALL TO SAVE CART ITEMS FROM LOCAL STORAGE TO USER CART
-      const products = JSON.parse(localStorage.getItem('cart'));
-      if (products && products.length > 0) {
-        addCartItemFromLocalStorage(products);
-      }
-
     } catch (error) {
       console.log(error);
     }

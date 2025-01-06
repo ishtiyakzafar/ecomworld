@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './WishListPage.scss';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import { useDispatch, useSelector } from 'react-redux';
 import wishlistService from '../../services/wishlist';
-import { actionRemoveFromWishlist, actionSetWishlist } from '../../store/wishlistSlice';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+import { actionRemoveFromWishlist, actionSetWishlist } from '../../store/productSlice';
+import MoveToCartModal from '../../components/MoveToCartModal/MoveToCartModal';
 
 const WishListPage = () => {
-  const { wishlist } = useSelector((state) => state.wishlist);
+  const { wishlist } = useSelector((state) => state.product);
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
 
@@ -37,45 +39,57 @@ const WishListPage = () => {
     }
   }
 
+  const handleMoveToCart = (item) => {
+    // dispatch(actionMoveToCart(item))
+  }
+
   return (
     <div className='container'>
       <div className='wishlistPage'>
         <SectionHeading title='My Wishlist' />
-        <div className="table-responsive">
-          <table className="table align-middle">
-            <thead>
-              <tr>
-                <th>Product Detail</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                wishlist.map((item) => (
-                  <tr key={item._id}>
-                    <td>
-                      <div className='product'>
-                        <img src='https://ecomusnext-themesflat.vercel.app/images/products/orange-1.jpg' alt="img" />
-                        <div className='productInfo'>
-                          <h6>{item.title}</h6>
-                          <p>{item.color}</p>
-                          <small onClick={() => deleteItemFromWishlist(item._id)}>Remove</small>
+        {wishlist.length > 0 ?
+          <div className="table-responsive">
+            <table className="table align-middle">
+              <thead>
+                <tr>
+                  <th>Product Detail</th>
+                  <th>Unit Price</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  wishlist.map((item) => (
+                    <tr key={item._id}>
+                      <td>
+                        <div className='product'>
+                          <Link to={`/product/${item._id}`}>
+                            <img src='https://ecomusnext-themesflat.vercel.app/images/products/orange-1.jpg' alt="img" />
+                          </Link>
+                          <div className='productInfo'>
+                            <h6>{item.title}</h6>
+                            <p>{item.color}</p>
+                            <small onClick={() => deleteItemFromWishlist(item._id)}>Remove</small>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td>₹{item.discountedPrice}</td>
-                    <td>In-stock</td>
-                    <td>
-                      <button>Add to cart</button>
-                    </td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
+                      </td>
+                      <td className='price'>
+                        ₹{item.discountedPrice} <small>₹{item.price}</small> <span>{item.discountPercent}% Off</span>
+                      </td>
+                      <td>{item.quantity > 0 ? 'In-stock' : 'Out of stock'}</td>
+                      <td>
+                        <MoveToCartModal item={item} />
+                      </td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+          :
+          <p>No product found in your wishlist</p>
+        }
       </div>
     </div>
   )

@@ -6,7 +6,7 @@ import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import ProductDetailSection from '../../components/ProductDetailSection/ProductDetailSection';
 import ProductDetailsTags from '../../components/ProductDetailsTags/ProductDetailsTags';
 import productService from '../../services/product';
-import ProductDetailImages from '../../components/ProductDetailImages/ProductDetailImages';
+import ProductImageSection from '../../components/ProductImageSection/ProductImageSection';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -33,16 +33,15 @@ const ProductDetailPage = () => {
   return (
     <div className='container'>
       <div className={s.productDetailBox}>
-        <div className={s.breadcrum}>
-          <Link to='/'>Home</Link> / <Link to='/products'>Products</Link> / <span>Product Detail</span>
-        </div>
-
         <div className={s.productDetail}>
           <div className='row g-4 g-md-5'>
             <div className='col-md-12 col-lg-6 col-xl-6'>
-              <ProductDetailImages details={details} />
+              <ProductImageSection details={details} />
             </div>
             <div className='col-md-12 col-lg-6'>
+              <div className={s.breadcrum}>
+                <Link to='/'>Home</Link> / <Link to='/products'>Products</Link> / <span>Product Detail</span>
+              </div>
               <ProductDetailSection details={details} />
             </div>
           </div>

@@ -8,11 +8,9 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { actionLogout } from '../../store/authSlice';
-import { actionToggleLoginPopup } from '../../store/appSlice';
 import userIcon from '../../assets/icons/user.svg';
-import { actionSetCart } from '../../store/productSlice';
-import { actionSetWishlist } from '../../store/wishlistSlice';
-
+import { actionSetCart, actionSetWishlist } from '../../store/productSlice';
+import { CiLogout } from "react-icons/ci";
 
 const Header = () => {
   const { isLoggedIn, user } = useSelector((state) => state.auth);
@@ -65,7 +63,7 @@ const Header = () => {
                       setShowDropdown(false);
                     }}
                   >
-                    <IoMdHeartEmpty /> Order
+                    <LiaShoppingBagSolid /> Order
                   </li>
 
                   <li
@@ -97,7 +95,7 @@ const Header = () => {
                       }
                     }}
                   >
-                    <IoMdHeartEmpty /> Logout
+                    <CiLogout /> Logout
                   </li>
                 </ul>
               }

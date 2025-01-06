@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import "./ProductDetailImages.scss";
+import "./ProductImageSection.scss";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import product1 from "../../assets/images/product1.jpg";
 import product2 from "../../assets/images/product2.jpg";
@@ -135,7 +135,7 @@ const images = [
   },
 ];
 
-const ProductDetailImages = ({ details }) => {
+const ProductImageSection = ({ details }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -146,7 +146,7 @@ const ProductDetailImages = ({ details }) => {
   }, []);
 
   return (
-    <div className="productDetailImages">
+    <div className="productImageSection">
       <div className="row g-4">
         <div className="col-xl-2 col-12 order-xl-0 order-1">
           <Swiper
@@ -192,4 +192,4 @@ const ProductDetailImages = ({ details }) => {
   );
 };
 
-export default ProductDetailImages;
+export default ProductImageSection;

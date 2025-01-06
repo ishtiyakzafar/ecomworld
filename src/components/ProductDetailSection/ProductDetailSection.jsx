@@ -7,12 +7,10 @@ import { LiaShippingFastSolid } from "react-icons/lia";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import { useDispatch, useSelector } from 'react-redux';
-import { actionAddToCart } from "../../store/productSlice";
+import { actionAddToCart, actionAddToWishlist } from "../../store/productSlice";
 import { toast } from "react-toastify";
 import cartService from "../../services/cart";
-import { actionAddToWishlist } from "../../store/wishlistSlice";
 import wishlistService from "../../services/wishlist";
-import { actionToggleLoginPopup } from "../../store/appSlice";
 
 
 const ProductDetailSection = ({ details }) => {
@@ -37,7 +35,6 @@ const ProductDetailSection = ({ details }) => {
 
   const handleAddToWishlist = async () => {
     if (!isLoggedIn) {
-      dispatch(actionToggleLoginPopup(true));
       return toast.error("Please login to add to wishlist");
     }
 

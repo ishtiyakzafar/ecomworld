@@ -3,9 +3,9 @@ import s from "./ProductCard.module.scss";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import wishlistService from "../../services/wishlist";
-import { actionToggleLoginPopup } from '../../store/appSlice';
 import { toast } from "react-toastify";
-import { actionAddToWishlist } from "../../store/wishlistSlice";
+import { actionAddToWishlist } from "../../store/productSlice";
+
 
 const ProductCard = ({ item }) => {
   const dispatch = useDispatch();
@@ -14,7 +14,6 @@ const ProductCard = ({ item }) => {
 
   const addToWishlist = async () => {
     if (!isLoggedIn) {
-      dispatch(actionToggleLoginPopup(true));
       return toast.error("Please login to add to wishlist");
     }
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import s from "./CartPage.module.scss";
+import "./CartPage.scss";
 import { IoAddOutline } from "react-icons/io5";
 import { FiMinus } from "react-icons/fi";
 import OrderSummary from '../../components/OrderSummary/OrderSummary';
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actionDecQty, actionIncQty, actionRemoveFromCart, actionSetCart } from '../../store/productSlice';
 import cartService from '../../services/cart';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const CartPage = () => {
   const { cart } = useSelector((state) => state.product);
@@ -61,54 +62,64 @@ const CartPage = () => {
 
   return (
     <div className='container'>
-      <div className={s.cartPageBox}>
+      <div className='cartPageBox'>
         <SectionHeading title='My Cart' />
-        <div className={s.cartPage}>
-          <div className={s.cartCard}>
-            <div className="table-responsive">
-              <table className="table align-middle">
-                <thead>
-                  <tr>
-                    <th>Product Detail</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Shipping</th>
-                    <th>Subtotal</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    cart.map((item) => (
-                      <tr key={item._id}>
-                        <td>
-                          <div className={s.product}>
-                            <img src='https://ecomusnext-themesflat.vercel.app/images/products/orange-1.jpg' alt="img" />
-                            <div className={s.productInfo}>
-                              <h6>{item.product._id}</h6>
-                              <p>{item.product.color} / {item.size}</p>
-                              <small onClick={() => deleteCartItem(item._id)}>Remove</small>
+        {cart.length > 0 ?
+          <div className='cartPage'>
+            <div className='cartCard'>
+              <div className="table-responsive">
+                <table className="table align-middle">
+                  <thead>
+                    <tr>
+                      <th>Product Detail</th>
+                      <th>Unit Price</th>
+                      <th>Quantity</th>
+                      <th>Shipping</th>
+                      <th>Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      cart.map((item) => (
+                        <tr key={item._id}>
+                          <td>
+                            <div className='product'>
+                              <Link to={`/product/${item.product._id}`}>
+                                <img src='https://ecomusnext-themesflat.vercel.app/images/products/orange-1.jpg' alt="img" />
+                              </Link>
+                              <div className='productInfo'>
+                                <h6>{item.product._id}</h6>
+                                <p>{item.product.color} / {item.size}</p>
+                                <small onClick={() => deleteCartItem(item._id)}>Remove</small>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td>₹{item.product.price}</td>
-                        <td>
-                          <div className={s.quantity}>
-                            <span onClick={() => item.product.quantity > item.quantity && increaseQty(item._id)}><IoAddOutline /></span>
-                            <p>{item.quantity}</p>
-                            <span onClick={() => item.quantity > 1 && decreaseQty(item._id)}><FiMinus /></span>
-                          </div>
-                        </td>
-                        <td>Free</td>
-                        <td>₹300</td>
-                      </tr>
-                    ))
-                  }
-                </tbody>
-              </table>
+                          </td>
+                          <td className='price'>
+                            ₹{item.product.discountedPrice} <small>₹{item.product.price}</small> <span>{item.product.discountPercent}% Off</span>
+                          </td>
+                          <td>
+                            <div className='quantity'>
+                              <span onClick={() => item.product.quantity > item.quantity && increaseQty(item._id)}><IoAddOutline /></span>
+                              <p>{item.quantity}</p>
+                              <span onClick={() => item.quantity > 1 && decreaseQty(item._id)}><FiMinus /></span>
+                            </div>
+                          </td>
+                          <td>Free</td>
+                          <td>
+                            ₹{item.product.discountedPrice * item.quantity}
+                          </td>
+                        </tr>
+                      ))
+                    }
+                  </tbody>
+                </table>
+              </div>
             </div>
+            <OrderSummary cart={cart} />
           </div>
-          <OrderSummary />
-        </div>
+          :
+          <p>No cart item found</p>
+        }
       </div>
     </div>
   )
