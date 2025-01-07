@@ -1,6 +1,6 @@
 header {
   height: 70px;
-  line-height: 70px;
+  // line-height: 70px;
   padding: 0 20px;
   border-bottom: 1px solid #f1f1f1;
   display: flex;
@@ -69,6 +69,25 @@ header {
     display: flex;
     align-items: center;
     gap: 20px;
+
+    .cartIcon,
+    .wishlistIcon{
+      position: relative;
+
+      .counter{
+        position: absolute;
+        right: -10px;
+        top: -2px;
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+        text-align: center;
+        border-radius: 50%;
+        background: #eb3b5a;
+        color: #fff;
+        font-size: 12px;
+      }
+    }
 
     svg {
       font-size: 20px;

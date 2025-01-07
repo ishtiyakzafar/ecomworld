@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import ShortUniqueId from 'short-unique-id';
 const uid = new ShortUniqueId();
 
@@ -23,7 +24,11 @@ const productSlice = createSlice({
       if (index === -1) {
         state.cart = [{ _id: uid(), product, quantity: 1, size }, ...state.cart];
       } else {
-        state.cart[index].quantity += 1;
+        if (state.cart[index].product.size.find((item) => item.name === size).quantity > state.cart[index].quantity) {
+          state.cart[index].quantity += 1;
+        } else {
+          toast.error('You have already added the maximum quantity to cart');
+        }
       }
 
       if (!JSON.parse(localStorage.getItem('user'))) {

@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import wishlistService from "../../services/wishlist";
 import { toast } from "react-toastify";
 import { actionAddToWishlist } from "../../store/productSlice";
+import { actionUpdateWishlistCount } from "../../store/authSlice";
 
 
 const ProductCard = ({ item }) => {
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
 
 
   const addToWishlist = async () => {
@@ -21,6 +22,7 @@ const ProductCard = ({ item }) => {
       const res = await wishlistService.addItemToWhislist({ productId: item._id });
       if (res.success) {
         dispatch(actionAddToWishlist(item));
+        dispatch(actionUpdateWishlistCount(user.wishlistCount + 1));
         toast.success('Product added to your wishlist');
       } else {
         toast.error('Product already added to your wishlist');
@@ -37,7 +39,11 @@ const ProductCard = ({ item }) => {
           <i className="fa-regular fa-heart"></i>
         </div>
         <Link to={`/product/${item._id}`}>
-          <img src='https://ecomusnext-themesflat.vercel.app/images/products/white-4.jpg' alt="img" />
+          <img
+            src={item.imageUrl[0]}
+            // src='https://ecomusnext-themesflat.vercel.app/images/products/white-4.jpg'
+            alt="img"
+          />
         </Link>
       </div>
       <div className={s.productInfo}>

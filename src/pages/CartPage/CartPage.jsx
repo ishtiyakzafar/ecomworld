@@ -9,13 +9,13 @@ import { actionDecQty, actionIncQty, actionRemoveFromCart, actionSetCart } from 
 import cartService from '../../services/cart';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { actionUpdateCartCount } from '../../store/authSlice';
 
 const CartPage = () => {
   const { cart } = useSelector((state) => state.product);
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
-
 
   const fetchUserCart = async () => {
     try {
@@ -34,6 +34,7 @@ const CartPage = () => {
     try {
       isLoggedIn && await cartService.deleteCartItem(id);
       dispatch(actionRemoveFromCart(id));
+      dispatch(actionUpdateCartCount(user.cartCount - 1));
       toast.error('Product remove from your cart');
     } catch (error) {
       console.log(error)
@@ -41,21 +42,29 @@ const CartPage = () => {
   }
 
 
-  const increaseQty = async (id) => {
-    try {
-      isLoggedIn && await cartService.incCartItemQty(id);
-      dispatch(actionIncQty(id));
-    } catch (error) {
-      console.log(error)
+  const handleIncreaseQty = async (item, quantity) => {
+    const leftQty = item.product.size.find((val) => val.name === item.size).quantity;
+
+    if (leftQty > quantity) {
+      try {
+        isLoggedIn && await cartService.incCartItemQty(item._id);
+        dispatch(actionIncQty(item._id));
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      return toast.error('You have already added the maximum quantity to cart');
     }
   }
 
-  const decreaseQty = async (id) => {
-    try {
-      isLoggedIn && await cartService.decCartItemQty(id);
-      dispatch(actionDecQty(id));
-    } catch (error) {
-      console.log(error)
+  const handleDecreaseQty = async (item, quantity) => {
+    if (quantity > 1) {
+      try {
+        isLoggedIn && await cartService.decCartItemQty(item._id);
+        dispatch(actionDecQty(item._id));
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -99,9 +108,9 @@ const CartPage = () => {
                           </td>
                           <td>
                             <div className='quantity'>
-                              <span onClick={() => item.product.quantity > item.quantity && increaseQty(item._id)}><IoAddOutline /></span>
+                              <span onClick={() => handleIncreaseQty(item, item.quantity)}><IoAddOutline /></span>
                               <p>{item.quantity}</p>
-                              <span onClick={() => item.quantity > 1 && decreaseQty(item._id)}><FiMinus /></span>
+                              <span onClick={() => handleDecreaseQty(item, item.quantity)}><FiMinus /></span>
                             </div>
                           </td>
                           <td>Free</td>

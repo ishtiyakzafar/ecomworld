@@ -10,6 +10,8 @@ const initialState = {
         id: "",
         email: "",
         name: "",
+        cartCount: 0,
+        wishlistCount: 0,
     },
     isLoggedIn: false,
 };
@@ -67,12 +69,21 @@ const authSlice = createSlice({
             state.user = initialState.user;
             state.isLoggedIn = initialState.isLoggedIn;
         },
+        actionUpdateCartCount(state, action) {
+            state.user.cartCount = action.payload;
+            // localStorage.setItem('user', JSON.stringify(state.user));
+        },
+        actionUpdateWishlistCount(state, action) {
+            state.user.wishlistCount = action.payload;
+            // localStorage.setItem('user', JSON.stringify(state.user));
+        },
     }
 })
 
 export const {
     actionLogin,
     actionLogout,
-    actionShowPopup
+    actionUpdateCartCount,
+    actionUpdateWishlistCount
 } = authSlice.actions;
 export default authSlice.reducer;

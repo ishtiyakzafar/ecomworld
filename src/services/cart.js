@@ -18,6 +18,9 @@ const decCartItemQty = (id) => {
 const addToCart = (data) => {
   return http.post('cart/additem', data);
 }
+const getUserCartProduct = (id) => {
+  return http.get(`cart/product/${id}`);
+}
 
 const cartService = {
   addCartItems,
@@ -26,6 +29,7 @@ const cartService = {
   incCartItemQty,
   decCartItemQty,
   addToCart,
+  getUserCartProduct,
 };
 
 export default cartService;

@@ -37,8 +37,14 @@ const Header = () => {
       <div className='headerIcon'>
         <IoSearchOutline />
         <Link to='/login'><FiUser /></Link>
-        <Link className='wishlistIcon' to='/wishlist'><IoMdHeartEmpty /></Link>
-        <Link className='cartIcon' to='/cart'><LiaShoppingBagSolid /></Link>
+        <Link className='wishlistIcon' to='/wishlist'>
+          {user.wishlistCount > 0 && <div className='counter'>{user.wishlistCount}</div>}
+          <IoMdHeartEmpty />
+        </Link>
+        <Link className='cartIcon' to='/cart'>
+          {user.cartCount > 0 && <div className='counter'>{user.cartCount}</div>}
+          <LiaShoppingBagSolid />
+        </Link>
 
         {isLoggedIn &&
           <>
@@ -88,9 +94,9 @@ const Header = () => {
                     onClick={() => {
                       dispatch(actionLogout());
                       setShowDropdown(false);
+                      dispatch(actionSetWishlist([]));
+                      dispatch(actionSetCart([]));
                       if (pathname === '/wishlist' || pathname === '/cart') {
-                        dispatch(actionSetWishlist([]));
-                        dispatch(actionSetCart([]));
                         navigate('/');
                       }
                     }}
