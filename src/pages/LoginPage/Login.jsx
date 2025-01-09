@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { actionLogin } from "../../store/authSlice";
 import authService from "../../services/auth";
 import { toast } from "react-toastify";
+import { addLocalCart } from "../../utils";
 
 const Login = ({ setStep }) => {
   const [email, setEmail] = useState("ishtiyak@gmail.com");
@@ -14,6 +15,10 @@ const Login = ({ setStep }) => {
     try {
       const res = await authService.signin({ email, password });
       dispatch(actionLogin(res.userDetails));
+
+      if (JSON.parse(localStorage.getItem('cart'))) {
+        addLocalCart();
+      }
     } catch (error) {
       toast.error(error);
     }

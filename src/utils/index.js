@@ -1,6 +1,7 @@
 import cartService from "../services/cart";
 
-export const addCartItemFromLocalStorage = (products) => {
+export const addLocalCart = async () => {
+  const products = JSON.parse(localStorage.getItem('cart'));
   let data = []
 
   for (const element of products) {
@@ -11,9 +12,10 @@ export const addCartItemFromLocalStorage = (products) => {
     })
   }
 
-  cartService.addCartItems({ cartItems: data }).then((res) => {
+  try {
+    const res = await cartService.addCartItems({ cartItems: data });
     localStorage.removeItem('cart');
-  }).catch((error) => {
+  } catch (error) {
     console.log(error)
-  })
+  }
 }

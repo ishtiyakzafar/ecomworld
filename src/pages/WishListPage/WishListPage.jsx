@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { actionRemoveFromWishlist, actionSetWishlist } from '../../store/productSlice';
 import MoveToCartModal from '../../components/MoveToCartModal/MoveToCartModal';
-import { actionUpdateWishlistCount } from '../../store/authSlice';
 
 const WishListPage = () => {
   const { wishlist } = useSelector((state) => state.product);
@@ -25,16 +24,13 @@ const WishListPage = () => {
   }
 
   useEffect(() => {
-    if (isLoggedIn) {
-      fetchUserWishlist();
-    }
+    if (isLoggedIn) fetchUserWishlist();
   }, [])
 
   const deleteItemFromWishlist = async (id) => {
     try {
       const res = await wishlistService.deleteItemFromWishlist(id);
       dispatch(actionRemoveFromWishlist(id));
-      dispatch(actionUpdateWishlistCount(user.wishlistCount - 1));
       toast.error('Product remove from your wishlist');
     } catch (error) {
       toast.error(res.message);

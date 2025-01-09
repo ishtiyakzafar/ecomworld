@@ -18,47 +18,50 @@ const productSlice = createSlice({
 
     actionAddToCart(state, action) {
       const { product, size } = action.payload;
-
       const index = state.cart.findIndex((item) => item.product._id === product._id && item.size === size);
+      const user = JSON.parse(localStorage.getItem('user'));
 
       if (index === -1) {
-        state.cart = [{ _id: uid(), product, quantity: 1, size }, ...state.cart];
+        state.cart = [{ _id: Date.now(), product, size, quantity: 1 }, ...state.cart];
+        toast.success("Product added to your cart");
+        if (!user) localStorage.setItem('cart', JSON.stringify(state.cart));
       } else {
         if (state.cart[index].product.size.find((item) => item.name === size).quantity > state.cart[index].quantity) {
           state.cart[index].quantity += 1;
+          toast.success("Product added to your cart");
+          if (!user) localStorage.setItem('cart', JSON.stringify(state.cart));
         } else {
           toast.error('You have already added the maximum quantity to cart');
         }
       }
-
-      if (!JSON.parse(localStorage.getItem('user'))) {
-        localStorage.setItem('cart', JSON.stringify(state.cart));
-      }
     },
 
     actionRemoveFromCart(state, action) {
+      const user = JSON.parse(localStorage.getItem('user'));
       state.cart = state.cart.filter((item) => item._id !== action.payload);
-
-      if (!JSON.parse(localStorage.getItem('user'))) {
-        localStorage.setItem('cart', JSON.stringify(state.cart));
-      }
+      toast.error('Product remove from your cart');
+      if (!user) localStorage.setItem('cart', JSON.stringify(state.cart));
     },
 
     actionIncQty(state, action) {
+      const user = JSON.parse(localStorage.getItem('user'));
       const index = state.cart.findIndex((item) => item._id === action.payload);
-      state.cart[index].quantity += 1;
 
-      if (!JSON.parse(localStorage.getItem('user'))) {
-        localStorage.setItem('cart', JSON.stringify(state.cart));
+      if (state.cart[index].product.size.find((item) => item.name === state.cart[index].size).quantity > state.cart[index].quantity) {
+        state.cart[index].quantity += 1;
+        if (!user) localStorage.setItem('cart', JSON.stringify(state.cart));
+      } else {
+        toast.error('You have already added the maximum quantity to cart');
       }
     },
 
     actionDecQty(state, action) {
+      const user = JSON.parse(localStorage.getItem('user'));
       const index = state.cart.findIndex((item) => item._id === action.payload);
-      state.cart[index].quantity -= 1;
 
-      if (!JSON.parse(localStorage.getItem('user'))) {
-        localStorage.setItem('cart', JSON.stringify(state.cart));
+      if (state.cart[index].quantity > 1) {
+        state.cart[index].quantity -= 1;
+        if (!user) localStorage.setItem('cart', JSON.stringify(state.cart));
       }
     },
 

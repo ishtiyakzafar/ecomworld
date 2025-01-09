@@ -14,6 +14,7 @@ import { CiLogout } from "react-icons/ci";
 
 const Header = () => {
   const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const { cart, wishlist } = useSelector((state) => state.product);
   const dispatch = useDispatch();
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
@@ -38,11 +39,11 @@ const Header = () => {
         <IoSearchOutline />
         <Link to='/login'><FiUser /></Link>
         <Link className='wishlistIcon' to='/wishlist'>
-          {user.wishlistCount > 0 && <div className='counter'>{user.wishlistCount}</div>}
+          {wishlist.length > 0 && <div className='counter'>{wishlist.length}</div>}
           <IoMdHeartEmpty />
         </Link>
         <Link className='cartIcon' to='/cart'>
-          {user.cartCount > 0 && <div className='counter'>{user.cartCount}</div>}
+          {cart.length > 0 && <div className='counter'>{cart.length}</div>}
           <LiaShoppingBagSolid />
         </Link>
 

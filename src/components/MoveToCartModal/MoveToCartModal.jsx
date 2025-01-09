@@ -15,6 +15,7 @@ const MoveToCartModal = ({ item }) => {
     if (size) {
       try {
         await cartService.addToCart({ productId: item._id, size });
+
         await wishlistService.deleteItemFromWishlist(item._id);
         document.getElementById(`asdasd${item._id}`).click();
         navigate('/cart')

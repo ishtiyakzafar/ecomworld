@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import wishlistService from "../../services/wishlist";
 import { toast } from "react-toastify";
 import { actionAddToWishlist } from "../../store/productSlice";
-import { actionUpdateWishlistCount } from "../../store/authSlice";
 
 
 const ProductCard = ({ item }) => {
@@ -22,7 +21,6 @@ const ProductCard = ({ item }) => {
       const res = await wishlistService.addItemToWhislist({ productId: item._id });
       if (res.success) {
         dispatch(actionAddToWishlist(item));
-        dispatch(actionUpdateWishlistCount(user.wishlistCount + 1));
         toast.success('Product added to your wishlist');
       } else {
         toast.error('Product already added to your wishlist');

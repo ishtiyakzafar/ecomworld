@@ -1,50 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import s from "./ProductDetailSection.module.scss";
 import { GiShoppingBag } from "react-icons/gi";
 import { FaRegHeart } from "react-icons/fa";
 import { LiaCertificateSolid } from "react-icons/lia";
 import { LiaShippingFastSolid } from "react-icons/lia";
-import { Link, useParams } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import { useDispatch, useSelector } from 'react-redux';
 import { actionAddToCart, actionAddToWishlist } from "../../store/productSlice";
 import { toast } from "react-toastify";
 import cartService from "../../services/cart";
 import wishlistService from "../../services/wishlist";
-import { actionUpdateCartCount } from "../../store/authSlice";
-
 
 const ProductDetailSection = ({ details }) => {
-  const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const [size, setSize] = useState("");
   const dispatch = useDispatch();
-  const { id } = useParams();
-  const [cartProduct, setCartProduct] = useState([]);
-  const { cart } = useSelector((state) => state.product);
 
   const handleAddTocart = async () => {
     if (!size) return toast.error('Please select a size');
 
-    // const findCartProduct = cartProduct.find((item) => item.size === size);
-
-    // if (findCartProduct) {
-    //   const cartProductQty = findCartProduct.quantity;
-    //   const totalProductQty = details.size.find((item) => item.name === size).quantity;
-
-    //   if (cartProductQty === totalProductQty) {
-    //     return toast.error('You have already added the maximum quantity to cart');
-    //   }
-    // }
-
     try {
-      if (isLoggedIn) {
-        await cartService.addToCart({ productId: details._id, size });
-      }
-
+      if (isLoggedIn) await cartService.addToCart({ productId: details._id, size });
       dispatch(actionAddToCart({ product: details, size }));
-
-      dispatch(actionUpdateCartCount(user.cartCount + 1));
-      toast.success("Product added to your cart");
     } catch (error) {
       toast.error(error);
     }
@@ -67,24 +44,6 @@ const ProductDetailSection = ({ details }) => {
       toast.error(error);
     }
   }
-
-
-  const fetchUserCartProduct = async () => {
-    try {
-      const res = await cartService.getUserCartProduct(id);
-      setCartProduct(res);
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      fetchUserCartProduct();
-    } else {
-      setCartProduct(cart);
-    }
-  }, [])
 
 
   return (

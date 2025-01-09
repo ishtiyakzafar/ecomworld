@@ -9,12 +9,10 @@ import { actionDecQty, actionIncQty, actionRemoveFromCart, actionSetCart } from 
 import cartService from '../../services/cart';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import { actionUpdateCartCount } from '../../store/authSlice';
 
 const CartPage = () => {
   const { cart } = useSelector((state) => state.product);
   const { isLoggedIn, user } = useSelector((state) => state.auth);
-
   const dispatch = useDispatch();
 
   const fetchUserCart = async () => {
@@ -22,49 +20,39 @@ const CartPage = () => {
       const res = await cartService.getUserCart();
       dispatch(actionSetCart(res));
     } catch (error) {
-      console.log(error)
+      toast.error(error);
     }
   }
 
   useEffect(() => {
-    isLoggedIn && fetchUserCart();
+    if (isLoggedIn) fetchUserCart();
   }, [])
 
   const deleteCartItem = async (id) => {
     try {
-      isLoggedIn && await cartService.deleteCartItem(id);
+      if (isLoggedIn) await cartService.deleteCartItem(id);
       dispatch(actionRemoveFromCart(id));
-      dispatch(actionUpdateCartCount(user.cartCount - 1));
-      toast.error('Product remove from your cart');
     } catch (error) {
-      console.log(error)
+      toast.error(error);
     }
   }
 
 
-  const handleIncreaseQty = async (item, quantity) => {
-    const leftQty = item.product.size.find((val) => val.name === item.size).quantity;
-
-    if (leftQty > quantity) {
-      try {
-        isLoggedIn && await cartService.incCartItemQty(item._id);
-        dispatch(actionIncQty(item._id));
-      } catch (error) {
-        console.log(error)
-      }
-    } else {
-      return toast.error('You have already added the maximum quantity to cart');
+  const handleIncreaseQty = async (item) => {
+    try {
+      if (isLoggedIn) await cartService.incCartItemQty(item._id);
+      dispatch(actionIncQty(item._id));
+    } catch (error) {
+      toast.error(error);
     }
   }
 
-  const handleDecreaseQty = async (item, quantity) => {
-    if (quantity > 1) {
-      try {
-        isLoggedIn && await cartService.decCartItemQty(item._id);
-        dispatch(actionDecQty(item._id));
-      } catch (error) {
-        console.log(error)
-      }
+  const handleDecreaseQty = async (item) => {
+    try {
+      if (isLoggedIn) await cartService.decCartItemQty(item._id);
+      dispatch(actionDecQty(item._id));
+    } catch (error) {
+      toast.error(error);
     }
   }
 
@@ -108,9 +96,9 @@ const CartPage = () => {
                           </td>
                           <td>
                             <div className='quantity'>
-                              <span onClick={() => handleIncreaseQty(item, item.quantity)}><IoAddOutline /></span>
+                              <span onClick={() => handleIncreaseQty(item)}><IoAddOutline /></span>
                               <p>{item.quantity}</p>
-                              <span onClick={() => handleDecreaseQty(item, item.quantity)}><FiMinus /></span>
+                              <span onClick={() => handleDecreaseQty(item)}><FiMinus /></span>
                             </div>
                           </td>
                           <td>Free</td>

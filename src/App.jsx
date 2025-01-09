@@ -1,9 +1,14 @@
-import React, { lazy } from "react";
+import React, { lazy, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AdminPrivateRoutes from "./config/AdminPrivateRoutes.jsx";
 import CustomerRoutes from "./config/CustomerRoutes.jsx";
 import AdminLayout from "./components/AdminLayout/AdminLayout.jsx";
 import CustomerPrivateRoutes from "./config/CustomerPrivateRoutes.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { actionSetCart, actionSetWishlist } from "./store/productSlice.js";
+import cartService from "./services/cart.js";
+import wishlistService from "./services/wishlist.js";
 const ProductPage = lazy(() => import("./pages/ProductPage/ProductPage.jsx"));
 const HomePage = lazy(() => import("./pages/HomePage/HomePage.jsx"));
 const Layout = lazy(() => import("./components/Layout/Layout"));
@@ -18,9 +23,29 @@ const AboutUs = lazy(() => import("./pages/AboutUs/AboutUs.jsx"));
 const ContactUs = lazy(() => import("./pages/ContactUs/ContactUs.jsx"));
 const LoginPage = lazy(() => import("./pages/LoginPage/LoginPage.jsx"));
 
-
-
 const App = () => {
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const fetchInitialData = async () => {
+    try {
+      const cart = await cartService.getUserCart();
+      dispatch(actionSetCart(cart));
+      const wishlist = await wishlistService.getWishlist();
+      dispatch(actionSetWishlist(wishlist));
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      // fetchInitialData();
+    }
+  }, [isLoggedIn])
+
+
+
   return (
     <Router>
       <Routes>
